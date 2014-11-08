@@ -1,1 +1,0 @@
-/Users/macowner/Dropbox/SceneScope/SceneScope/Build/Intermediates/ArchiveIntermediates/SceneScope/InstallationBuildProductsLocation/Applications/SceneScope.app
