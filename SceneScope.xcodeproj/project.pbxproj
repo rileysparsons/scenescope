@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1265DB1A0E94B100A9E23C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1265DA1A0E94B100A9E23C /* MapKit.framework */; };
 		C201B53F19FB0EB9006CE23B /* SSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C201B53E19FB0EB9006CE23B /* SSUser.m */; };
 		F10AF5DD1A09AB6400B8900B /* greenUserAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = F10AF5DB1A09AB6400B8900B /* greenUserAnnotation.png */; };
 		F10AF5DE1A09AB6400B8900B /* greenUserAnnotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F10AF5DC1A09AB6400B8900B /* greenUserAnnotation@2x.png */; };
@@ -55,7 +56,6 @@
 		F18C4A9618EE6E4900120197 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C4A9518EE6E4900120197 /* Security.framework */; };
 		F18C4A9818EE6E5800120197 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C4A9718EE6E5800120197 /* SystemConfiguration.framework */; };
 		F18C775919D748F900357FC1 /* SSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C775819D748F900357FC1 /* SSLocation.m */; };
-		F194916418EE760000F0B36D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F194916318EE760000F0B36D /* MapKit.framework */; };
 		F194916618EE780700F0B36D /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F194916518EE780700F0B36D /* Parse.framework */; };
 		F1A464FA19033F5400EDB516 /* SceneScope basic logo more page.png in Resources */ = {isa = PBXBuildFile; fileRef = F1A464F919033F5400EDB516 /* SceneScope basic logo more page.png */; };
 		F1A464FC190340EA00EDB516 /* SceneScope basic logo more page@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1A464FB190340EA00EDB516 /* SceneScope basic logo more page@2x.png */; };
@@ -114,6 +114,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C1265DA1A0E94B100A9E23C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4B527CC387AA4E6891C4053F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7D6F80B80044BAF8B0BF04D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		C201B53D19FB0EB9006CE23B /* SSUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSUser.h; sourceTree = "<group>"; };
@@ -179,7 +180,6 @@
 		F18C4A9718EE6E5800120197 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F18C775719D748F900357FC1 /* SSLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLocation.h; sourceTree = "<group>"; };
 		F18C775819D748F900357FC1 /* SSLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLocation.m; sourceTree = "<group>"; };
-		F194916318EE760000F0B36D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F194916518EE780700F0B36D /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		F1A464F919033F5400EDB516 /* SceneScope basic logo more page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SceneScope basic logo more page.png"; sourceTree = "<group>"; };
 		F1A464FB190340EA00EDB516 /* SceneScope basic logo more page@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SceneScope basic logo more page@2x.png"; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F194916418EE760000F0B36D /* MapKit.framework in Frameworks */,
+				0C1265DB1A0E94B100A9E23C /* MapKit.framework in Frameworks */,
 				F18C4A9818EE6E5800120197 /* SystemConfiguration.framework in Frameworks */,
 				F18C4A9618EE6E4900120197 /* Security.framework in Frameworks */,
 				F18C4A9418EE6E4300120197 /* QuartzCore.framework in Frameworks */,
@@ -317,8 +317,8 @@
 		F18C49E118EE64AA00120197 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C1265DA1A0E94B100A9E23C /* MapKit.framework */,
 				F194916518EE780700F0B36D /* Parse.framework */,
-				F194916318EE760000F0B36D /* MapKit.framework */,
 				F18C4A9718EE6E5800120197 /* SystemConfiguration.framework */,
 				F18C4A9518EE6E4900120197 /* Security.framework */,
 				F18C4A9318EE6E4300120197 /* QuartzCore.framework */,
