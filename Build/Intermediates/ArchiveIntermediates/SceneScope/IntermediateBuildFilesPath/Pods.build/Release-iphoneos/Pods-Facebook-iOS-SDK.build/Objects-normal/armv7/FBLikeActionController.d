@@ -1,0 +1,35 @@
+dependencies: \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLikeActionController.m \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLikeActionController.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSDKMacros.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Insights/FBAppEvents+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppEvents.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSession.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBDataDiskCache.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBDialogs+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogs.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppCall.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAccessTokenData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppLinkData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogsData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLinkShareParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogsParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphActionParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphAction.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphObject.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBPhotoParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBLikeDialogParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBError.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBErrorUtility+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBErrorUtility.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBInternalSettings.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSettings.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLikeButtonPopWAV.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBAudioResourceLoader.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBLogger.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Network/FBRequest+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBRequest.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphObject.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBRequestConnection.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBUtility.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBFetchedAppSettings.h

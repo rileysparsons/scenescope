@@ -1,0 +1,25 @@
+PODS:
+  - Bolts (1.1.2)
+  - Facebook-iOS-SDK (3.18.0):
+    - Bolts
+  - objective-zip (0.0.1)
+  - Simple-KML (0.1.0):
+    - objective-zip (= 0.0.1)
+    - TouchXML
+  - TouchXML (0.1)
+  - TPKeyboardAvoiding (1.2.4)
+
+DEPENDENCIES:
+  - Facebook-iOS-SDK
+  - Simple-KML
+  - TPKeyboardAvoiding
+
+SPEC CHECKSUMS:
+  Bolts: 2635e8698a630774689441047f3465d78c48d485
+  Facebook-iOS-SDK: fa12c51cc57bfb6f92e47793c9d4d2c65bc92741
+  objective-zip: 609ce83ec700cda3fb31edba8ae3e254472e3fc2
+  Simple-KML: 145578b3bd3d1d34e215169a8e195fbda4361ef5
+  TouchXML: fa552bd1f8b98cb5233be61622655796765fe535
+  TPKeyboardAvoiding: 925e1e1912597d1a4956697eec3bd9656552153c
+
+COCOAPODS: 0.33.1

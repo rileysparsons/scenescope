@@ -1,0 +1,20 @@
+dependencies: \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBLinkShareParams.m \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLinkShareParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogsParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBAppBridge.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppCall.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAccessTokenData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSession.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSDKMacros.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppLinkData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogsData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBAppBridgeScheme.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBDialogsParams+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBError.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBInternalSettings.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSettings.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBLogger.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBShareDialogParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBUtility.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBFetchedAppSettings.h

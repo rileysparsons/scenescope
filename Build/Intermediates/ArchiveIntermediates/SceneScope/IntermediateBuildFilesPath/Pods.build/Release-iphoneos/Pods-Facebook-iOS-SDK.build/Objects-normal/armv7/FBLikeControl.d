@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLikeControl.m \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLikeControl.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSDKMacros.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Insights/FBAppEvents+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppEvents.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSession.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBDialogs+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogs.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppCall.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAccessTokenData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppLinkData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogsData.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLinkShareParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBDialogsParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphActionParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphAction.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphObject.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBPhotoParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/DeviceAPI/FBLikeDialogParams.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLikeActionController.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLikeBoxView.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLikeButton.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBViewImpressionTracker.h

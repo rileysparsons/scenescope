@@ -1,0 +1,32 @@
+dependencies: \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/UI/FBLoginView.m \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLoginView.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphUser.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphPerson.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphObject.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphPlace.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBGraphLocation.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSession.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBSDKMacros.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBTooltipView.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Insights/FBAppEvents+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBAppEvents.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBError.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLoginTooltipView.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLoginViewButtonPNG.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBLoginViewButtonPressedPNG.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBProfilePictureView.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBRequest.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphAction.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBOpenGraphObject.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBRequestConnection.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Network/FBRequestConnection+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Network/FBRequestMetadata.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Login/FBSession+Internal.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Login/FBSessionAppEventsState.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Login/FBSystemAccountStoreAdapter.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBTask.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/FBTaskCompletionSource.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBUtility.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBFetchedAppSettings.h \
+  /Users/macowner/Dropbox/SceneScope/SceneScope/Pods/Facebook-iOS-SDK/src/Core/FBLogger.h
