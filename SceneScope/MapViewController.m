@@ -110,8 +110,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpLocationServices) name:@"LocationServicesApproved" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectResidence) name:@"DisplayResidencePrompt" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserLocation) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserLocation) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void) selectResidence {
@@ -121,65 +121,52 @@
     }];
 }
 
--(void)updateUserLocation{
-    // Gets user location as geopoint, saves to database and then calls next method in update chain,
-    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-        [[PFUser currentUser] setObject:geoPoint forKey:@"currentLocation"];
-        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error){
-            } else {
-            if (succeeded){
-                [self updateUserAnnotations];
-                [self adjustViewForActivity];
-                }
-            }
-        }];
-    }];
-}
-
                                                                 
 -(void)updateUserAnnotations {
-    if (!self.userAnnotationsDict) {
-        self.userAnnotationsDict = [NSMutableDictionary dictionary];
-    }
-    NSMutableArray *annotationsToAdd = [[NSMutableArray alloc] init];
-    _userQuery = [PFUser query];
-    [_userQuery setLimit:1000];
-    [_userQuery whereKey:@"objectId" notEqualTo:[[PFUser currentUser] objectId]];
-    [_userQuery whereKeyExists:@"currentLocation"];
-    [_userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            [UIView animateWithDuration:.5 animations:^{
-                for (SSUser *object in objects) {
-                    LocationAnnotation *currentAnnotation = self.userAnnotationsDict[object.objectId];
-                    PFGeoPoint *geopoint = [object objectForKey:@"currentLocation"];
-                    
-                    if (currentAnnotation) {
-                        currentAnnotation.geopoint = geopoint;
-                    } else {
-                        UserLocationAnnotation *geoPointAnnotation = [[UserLocationAnnotation alloc] initWithSSUser:object];
-                        [annotationsToAdd addObject:geoPointAnnotation];
-
-                         
-                    }
-                    
-                    [self.scnMapView addAnnotations:annotationsToAdd];
-                    
-                        /* Facebook friend check (Needs to be refined)
-                                    if ([self checkIfUserIsFriend:object]){
-                                        LocationAnnotation *geoPointAnnotation = [[LocationAnnotation alloc] initWithCoordinate:geopointCoordinate andTitle:[object objectId] andSubtitle:nil withInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"userLocationAnnotation", @"Category", [NSNumber numberWithBool:YES], @"FBFriend", nil]];
-                                        [userAnnotations addObject:geoPointAnnotation];
-                                    } else {
-                                        LocationAnnotation *geoPointAnnotation = [[LocationAnnotation alloc] initWithCoordinate:geopointCoordinate andTitle:[object objectId] andSubtitle:nil withInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"userLocationAnnotation", @"Category", [NSNumber numberWithBool:NO], @"FBFriend", nil]];
-                                        [userAnnotations addObject:geoPointAnnotation];
-                                    }
-                         */
-                }
-            }];
-        } else {
-                //error handling
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
+        if (!self.userAnnotationsDict) {
+            self.userAnnotationsDict = [NSMutableDictionary dictionary];
         }
-    }];
+        NSMutableArray *annotationsToAdd = [[NSMutableArray alloc] init];
+        _userQuery = [PFUser query];
+        [_userQuery setLimit:1000];
+        [_userQuery whereKey:@"objectId" notEqualTo:[[PFUser currentUser] objectId]];
+        [_userQuery whereKeyExists:@"currentLocation"];
+        [_userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                [UIView animateWithDuration:.5 animations:^{
+                    for (SSUser *object in objects) {
+                        LocationAnnotation *currentAnnotation = self.userAnnotationsDict[object.objectId];
+                        PFGeoPoint *geopoint = [object objectForKey:@"currentLocation"];
+                        
+                        if (currentAnnotation) {
+                            currentAnnotation.geopoint = geopoint;
+                        } else {
+                            UserLocationAnnotation *geoPointAnnotation = [[UserLocationAnnotation alloc] initWithSSUser:object];
+                            [annotationsToAdd addObject:geoPointAnnotation];
+
+                             
+                        }
+                       
+                        [self.scnMapView addAnnotations:annotationsToAdd];
+                        
+                            /* Facebook friend check (Needs to be refined)
+                                        if ([self checkIfUserIsFriend:object]){
+                                            LocationAnnotation *geoPointAnnotation = [[LocationAnnotation alloc] initWithCoordinate:geopointCoordinate andTitle:[object objectId] andSubtitle:nil withInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"userLocationAnnotation", @"Category", [NSNumber numberWithBool:YES], @"FBFriend", nil]];
+                                            [userAnnotations addObject:geoPointAnnotation];
+                                        } else {
+                                            LocationAnnotation *geoPointAnnotation = [[LocationAnnotation alloc] initWithCoordinate:geopointCoordinate andTitle:[object objectId] andSubtitle:nil withInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"userLocationAnnotation", @"Category", [NSNumber numberWithBool:NO], @"FBFriend", nil]];
+                                            [userAnnotations addObject:geoPointAnnotation];
+                                        }
+                             */
+                    }
+                }];
+                [self adjustViewForActivity];
+            } else {
+                    //error handling
+            }
+        }];
+    }
 }
 /* Check if a user is a Facebook friend of currentUser
 -(BOOL)checkIfUserIsFriend:(PFObject *)user{
@@ -229,7 +216,7 @@
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ResidenceSelected"] == NO){
             [self selectResidence];
         }
-        [self updateUserLocation];
+        [self updateUserAnnotations];
     } else {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
