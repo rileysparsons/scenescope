@@ -509,48 +509,78 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-    AnnotationView* pinView = [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"locationAnnotationIdentifier"];
-    OverlayAnnotationView *overlayAnnotationPin = [[OverlayAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"overlayAnnotationIdentifier"];
-    UserAnnotationView *userAnnotationView = [[UserAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"userAnnotationIdentifier"];
+    static NSString *overlayAnnotationViewIdentifier = @"OverlayAnnotationViewIdentifier";
+    static NSString *userAnnotationViewIdentifier = @"userAnnotationViewIdentifier";
+    
+    AnnotationView  *locationAnnotationView = (AnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:nil];
+    OverlayAnnotationView *overlayAnnotationView = (OverlayAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:overlayAnnotationViewIdentifier];
+    UserAnnotationView *userAnnotationView = (UserAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:userAnnotationViewIdentifier];
     
     if([annotation isKindOfClass:[MKUserLocation class]]){
         return nil;
     }
     
-    if (!pinView) {
-        
-    } else {
-        if ([annotation isKindOfClass:[LocationAnnotation class]]){
-            
-            if ([annotation.title isEqualToString:@"Bellomy"] || [annotation.title isEqualToString:@"Campus"] || [annotation.title isEqualToString:@"Dark Side"] ||
-                [annotation.title isEqualToString:@"Domicilio"] ||
-                [annotation.title isEqualToString:@"Villas"]){
-                overlayAnnotationPin.annotation = annotation;
-                overlayAnnotationPin.canShowCallout = NO;
-                return  overlayAnnotationPin;
-                
-            } else {
-                pinView.annotation = annotation;
-                [self configureAnnotationView:pinView];
-                [pinView setCalloutAccessory];
-                return pinView;
-            }
-        
-        } else if ([annotation isKindOfClass:[UserLocationAnnotation class]]){
-            /* For Facebook Check (Needs to be refined)
-            if ([[campusAnnotation.infoDictionary objectForKey:@"FBFriend"] isEqualToNumber:[NSNumber numberWithBool:YES]]){
-                userAnnotationView.image = [UIImage imageNamed:@"yellowUserAnnotation"];
-                return userAnnotationView;
-            } else {
-                userAnnotationView.image = [UIImage imageNamed:@"greenUserAnnotation"];
-                return userAnnotationView;
-            }
-            */
-            userAnnotationView.image = [UIImage imageNamed:@"greenUserAnnotation"];
-            return userAnnotationView;
+    if ([annotation isKindOfClass:[LocationAnnotation class]]){
+        if (!locationAnnotationView){
+            locationAnnotationView = [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+            [self configureAnnotationView:locationAnnotationView];
+        } else {
+            locationAnnotationView.annotation = annotation;
         }
-    };
-    return nil;
+        return locationAnnotationView;
+    }
+    if ([annotation isKindOfClass:[UserLocationAnnotation class]]){
+        if (!userAnnotationView){
+            userAnnotationView = [[UserAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:userAnnotationViewIdentifier];
+        } else {
+            userAnnotationView.annotation = annotation;
+        }
+        return userAnnotationView;
+    }
+    if ([annotation isKindOfClass:[OverlayAnnotationView class]]){
+        if (!overlayAnnotationView){
+            overlayAnnotationView = [[OverlayAnnotationView  alloc] initWithAnnotation:annotation reuseIdentifier:overlayAnnotationViewIdentifier];
+        }else{
+            overlayAnnotationView.annotation = annotation;
+        }
+        return overlayAnnotationView;
+    }
+    return  nil;
+    
+//    if (!pinView) {
+//        
+//    } else {
+//        if ([annotation isKindOfClass:[LocationAnnotation class]]){
+//            
+//            if ([annotation.title isEqualToString:@"Bellomy"] || [annotation.title isEqualToString:@"Campus"] || [annotation.title isEqualToString:@"Dark Side"] ||
+//                [annotation.title isEqualToString:@"Domicilio"] ||
+//                [annotation.title isEqualToString:@"Villas"]){
+//                overlayAnnotationPin.annotation = annotation;
+//                overlayAnnotationPin.canShowCallout = NO;
+//                return  overlayAnnotationPin;
+//                
+//            } else {
+//                pinView.annotation = annotation;
+//                [self configureAnnotationView:pinView];
+//                [pinView setCalloutAccessory];
+//                return pinView;
+//            }
+//        
+//        } else if ([annotation isKindOfClass:[UserLocationAnnotation class]]){
+//            /* For Facebook Check (Needs to be refined)
+//            if ([[campusAnnotation.infoDictionary objectForKey:@"FBFriend"] isEqualToNumber:[NSNumber numberWithBool:YES]]){
+//                userAnnotationView.image = [UIImage imageNamed:@"yellowUserAnnotation"];
+//                return userAnnotationView;
+//            } else {
+//                userAnnotationView.image = [UIImage imageNamed:@"greenUserAnnotation"];
+//                return userAnnotationView;
+//            }
+//            */
+//            userAnnotationView.image = [UIImage imageNamed:@"greenUserAnnotation"];
+//            return userAnnotationView;
+//        }
+//    };
+//    return nil;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
