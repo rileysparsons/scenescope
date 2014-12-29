@@ -106,7 +106,6 @@
             //                                                      [defaults setObject:userLocation forKey:@"userLocation"];
             //                                                      [defaults synchronize];
             
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
             [self checkIfLocationHasBeenSubmitted];
             
             //                                                  }

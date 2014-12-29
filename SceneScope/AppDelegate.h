@@ -18,4 +18,10 @@
 @property (nonatomic) NSTimer* locationUpdateTimer;
 @property (strong, nonatomic) UIWindow *window;
 
+-(void)customizeUserInterface;
+-(void)updateLocation;
+-(void)presentHomeViewController;
+-(void)presentLoginViewController;
+
+
 @end
