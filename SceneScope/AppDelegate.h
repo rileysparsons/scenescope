@@ -10,7 +10,7 @@
 #import "MapViewController.h"
 #import "LocationTracker.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MapViewControllerDelegate> {
 
 }
 

@@ -12,20 +12,23 @@
 
 
 @class LocationAnnotation;
-@class CustomUIActionSheetViewController;
+@class MapViewController;
 
+@protocol MapViewControllerDelegate <NSObject>
 
+-(void)mapViewControllerDidApproveLocationUpdates:(MapViewController *)controller;
 
-
+@end
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>{
-    CustomUIActionSheetViewController *customUIActionSheetViewController;
+   
 }
 
-@property(nonatomic, retain) CustomUIActionSheetViewController *customUIActionSheetViewController;
+
 @property (weak, nonatomic) IBOutlet MKMapView *scnMapView;
 @property (strong, nonatomic) IBOutlet UISearchBar *locationSearchBar;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *locationSearchDisplayController;
+@property (weak, nonatomic) id<MapViewControllerDelegate> delegate;
 @property (weak, nonatomic) UIBarButtonItem *moreButton;
 @property (nonatomic, strong) NSArray *searchResults;
 @property BOOL manuallyChangingMapRect;

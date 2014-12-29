@@ -15,6 +15,7 @@
 #import "ExtraSetupViewController.h"
 #import "UserAnnotationView.h"
 #import "UserLocationAnnotation.h"
+#import "AppDelegate.h"
 #import "SimpleKML.h"
 #import "SimpleKMLContainer.h"
 #import "SimpleKMLDocument.h"
@@ -24,6 +25,7 @@
 #import "SimpleKMLPolygon.h"
 #import "SimpleKMLLinearRing.h"
 #import "SSLocation.h"
+#import "LocationTracker.h"
 
 #define centerSantaClaraLat 37.349236f
 #define centerSantaClaraLong  -121.939064f
@@ -57,8 +59,6 @@
 
 @synthesize manuallyChangingMapRect, lastGoodMapRect;
 
-@synthesize customUIActionSheetViewController;
-
 @synthesize userLocationButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -76,6 +76,7 @@
     self.scnCircle = [MKCircle circleWithCenterCoordinate:(CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)) radius:2414.02];
     self.navigationItem.title = @"Map";
     
+    [self startLocationManager];
     
     self.scnMapView.delegate = self;
     [self.scnMapView setShowsPointsOfInterest:NO];
@@ -102,10 +103,22 @@
     
     [self drawOverlay];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpLocationServices) name:@"LocationServicesApproved" object:nil];
+    CLAuthorizationStatus authorizationStatus= [CLLocationManager authorizationStatus];
+    
+    if (authorizationStatus == kCLAuthorizationStatusAuthorizedAlways ||
+        authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        scnMapView.showsUserLocation = YES;
+    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectResidence) name:@"DisplayResidencePrompt" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpLocationServices) name:@"LocationServicesApproved" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+-(void)startLocationManager {
+    self.delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [self.delegate mapViewControllerDidApproveLocationUpdates:self];
 }
 
 -(void) selectResidence {

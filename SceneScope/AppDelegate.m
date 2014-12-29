@@ -19,6 +19,7 @@
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self.window makeKeyAndVisible];
 
@@ -43,6 +44,17 @@
     [self customizeUserInterface];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    if ([PFUser currentUser]){
+        [self presentHomeViewController];
+    } else {
+        NSLog(@"present Login");
+        [self presentLoginViewController];
+    }
+    
+    return YES;
+}
+
+- (void)startLocationUpdates {
     UIAlertView * alert;
     
     //We have to make sure that the Background App Refresh is enable for the Location updates to work in the background.
@@ -58,17 +70,17 @@
     }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted){
         
         alert = [[UIAlertView alloc] initWithTitle:@""
-                                          message:@"The functions of this app are limited because the Background App Refresh is disable."
-                                         delegate:nil
-                                cancelButtonTitle:@"Ok"
-                                otherButtonTitles:nil, nil];
+                                           message:@"The functions of this app are limited because the Background App Refresh is disable."
+                                          delegate:nil
+                                 cancelButtonTitle:@"Ok"
+                                 otherButtonTitles:nil, nil];
         [alert show];
         
     } else{
         
         self.locationTracker = [[LocationTracker alloc]init];
         [self.locationTracker startLocationTracking];
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LocationServicesApproved" object:self];
         //Send the best location to server every 60 seconds
         //You may adjust the time interval depends on the need of your app.
         NSTimeInterval time = 300.0;
@@ -79,22 +91,12 @@
                                        userInfo:nil
                                         repeats:YES];
     }
-    if ([PFUser currentUser]){
-        [self presentHomeViewController];
-        
-    } else {
-        NSLog(@"present Login");
-        [self presentLoginViewController];
-    }
-    
-    return YES;
 }
+
 
 -(void)updateLocation{
     NSLog(@"updateLocation");
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]){
         [self.locationTracker updateLocationToServer];
-    }
 }
 
 -(void)customizeUserInterface {
@@ -169,6 +171,8 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavigationController"];
+    MapViewController *mapViewcontroller = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
+    mapViewcontroller.delegate = self;
     [self.window makeKeyAndVisible];
     NSLog(@"present called!");
 }
@@ -176,6 +180,13 @@
 #pragma mark LoginViewController delegate methods
 -(void)newLoginViewControllerDidLogin:(NewLoginViewController *)controller{
     [self presentHomeViewController];
+}
+
+#pragma mark MapViewController Delegate methods
+
+-(void)mapViewControllerDidApproveLocationUpdates:(MapViewController *)controller{
+    [self startLocationUpdates];
+    NSLog(@"Delegate Success!");
 }
 
 @end
