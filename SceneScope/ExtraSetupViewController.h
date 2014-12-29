@@ -9,8 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+@class ExtraSetupViewController;
+
+@protocol ExtraSetupViewControllerDelegate <NSObject>
+
+-(void)extraSetupViewControllerDidSelectLocation:(ExtraSetupViewController *)controller;
+
+@end
+
 @interface ExtraSetupViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, UIAlertViewDelegate>
 
+@property (weak, nonatomic) id<ExtraSetupViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIPickerView *locationPicker;
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
 @property (strong, nonatomic) NSArray *locations;

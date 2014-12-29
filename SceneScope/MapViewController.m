@@ -93,13 +93,7 @@
     [panRecognizer setDelegate:self];
     [self.scnMapView addGestureRecognizer:panRecognizer];
     
-   if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]){
-        if ([CLLocationManager locationServicesEnabled]){
-            [self setUpLocationServices];
-        } else {
-            
-        }
-    }
+    [self setUpLocationServices];
     
     // This array holds all of the locations (houses not users) of the map
     _mapLocations = [[NSMutableArray alloc] init];
@@ -221,17 +215,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:NO];
-    self.navigationController.navigationBarHidden = NO;
     // Prompt Login if there is no user logged in. Otherwise update the locations.
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser){
-        NSLog(@"Current User: %@", currentUser.username);
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ResidenceSelected"] == NO){
-            [self selectResidence];
-        }
-        [self updateUserLocation];
+                [self updateUserLocation];
     } else {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
+        
     }
 }
 

@@ -8,14 +8,18 @@
 
 #import "AppDelegate.h"
 #import "MapViewController.h"
+#import "NewLoginViewController.h"
 #import <Parse/Parse.h>
 #import "SSLocation.h"
 #import "SSUser.h"
 
+@interface AppDelegate () <NewLoginViewControllerDelegate>
+
+@end
+
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self.window makeKeyAndVisible];
 
     // Register Parse Subclass
@@ -37,6 +41,14 @@
     //UI Customization
     
     [self customizeUserInterface];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    if ([PFUser currentUser]){
+        [self presentHomeViewController];
+    } else {
+        [self presentLoginViewController];
+    }
     
     return YES;
 }
@@ -99,6 +111,28 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 
+#pragma mark LoginViewController
+- (void)presentLoginViewController {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    NewLoginViewController *newLoginViewController = [storyboard instantiateViewControllerWithIdentifier:@"NewLoginViewController"];
+    newLoginViewController.delegate = self;
+    self.window.rootViewController = newLoginViewController;
+    [self.window makeKeyAndVisible];
+}
 
+#pragma mark HomeViewController
+
+- (void)presentHomeViewController {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavigationController"];
+    [self.window makeKeyAndVisible];
+    NSLog(@"present called!");
+}
+
+#pragma mark LoginViewController delegate methods
+-(void)newLoginViewControllerDidLogin:(NewLoginViewController *)controller{
+    [self presentHomeViewController];
+}
 
 @end
