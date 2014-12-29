@@ -40,7 +40,6 @@
 -(void)setTitleOnLocation;
 -(CLLocationDistance)calculateDistanceFromUser:(id<MKAnnotation>)annotation;
 -(void)didInteractWithMap:(UIGestureRecognizer*)gestureRecognizer;
--(void)mapShift;
 -(void)loadAnnotations;
 -(void)setUpLocationServices;
 -(void)updateUserLocation;

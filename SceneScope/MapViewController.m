@@ -93,13 +93,7 @@
     [panRecognizer setDelegate:self];
     [self.scnMapView addGestureRecognizer:panRecognizer];
     
-   if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]){
-        if ([CLLocationManager locationServicesEnabled]){
-            [self setUpLocationServices];
-        } else {
-            
-        }
-    }
+    [self setUpLocationServices];
     
     // This array holds all of the locations (houses not users) of the map
     _mapLocations = [[NSMutableArray alloc] init];
@@ -110,30 +104,14 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpLocationServices) name:@"LocationServicesApproved" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectResidence) name:@"DisplayResidencePrompt" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserLocation) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserLocation) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void) selectResidence {
     ExtraSetupViewController *extraSetupViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ExtraSetupViewController"];
     [self presentViewController:extraSetupViewController animated:YES completion:^{
         nil;
-    }];
-}
-
--(void)updateUserLocation{
-    // Gets user location as geopoint, saves to database and then calls next method in update chain,
-    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-        [[PFUser currentUser] setObject:geoPoint forKey:@"currentLocation"];
-        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error){
-            } else {
-            if (succeeded){
-                [self updateUserAnnotations];
-                [self adjustViewForActivity];
-                }
-            }
-        }];
     }];
 }
 
@@ -162,7 +140,7 @@
 
                          
                     }
-                    
+                   
                     [self.scnMapView addAnnotations:annotationsToAdd];
                     
                         /* Facebook friend check (Needs to be refined)
@@ -176,10 +154,12 @@
                          */
                 }
             }];
+            [self adjustViewForActivity];
         } else {
                 //error handling
         }
     }];
+
 }
 /* Check if a user is a Facebook friend of currentUser
 -(BOOL)checkIfUserIsFriend:(PFObject *)user{
@@ -221,17 +201,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:NO];
-    self.navigationController.navigationBarHidden = NO;
     // Prompt Login if there is no user logged in. Otherwise update the locations.
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser){
-        NSLog(@"Current User: %@", currentUser.username);
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ResidenceSelected"] == NO){
-            [self selectResidence];
-        }
-        [self updateUserLocation];
+        [self updateUserAnnotations];
     } else {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
+        
     }
 }
 

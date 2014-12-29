@@ -108,13 +108,11 @@
 }
 
 - (IBAction)preferNotButton:(id)sender {
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ResidenceSelected"];
+    [self.delegate extraSetupViewControllerDidSelectLocation:self];
 }
 
 - (IBAction)residenceNotButton:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ResidenceSelected"];
 }
 
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -138,8 +136,8 @@
         [user addObject:objectId forKey:@"residenceId"];
         [user saveInBackground];
         
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ResidenceSelected"];
         [self dismissViewControllerAnimated:YES completion:nil];
+        [self.delegate extraSetupViewControllerDidSelectLocation:self];
     }
 }
 @end

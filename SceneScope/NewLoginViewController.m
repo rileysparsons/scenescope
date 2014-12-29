@@ -1,60 +1,57 @@
 //
-//  LoginViewController.m
+//  NewLoginViewController.m
 //  SceneScope
 //
-//  Created by Riley Parsons on 7/26/14.
+//  Created by Riley Steele Parsons on 12/28/14.
 //  Copyright (c) 2014 Riley Parsons. All rights reserved.
 //
 
-#import "LoginViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
+#import "NewLoginViewController.h"
+#import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
+#import "ExtraSetupViewController.h"
 #import <Parse/Parse.h>
-#import "MapViewController.h"
 
-@interface LoginViewController ()
+@interface NewLoginViewController () <ExtraSetupViewControllerDelegate>
 
 @end
 
-@implementation LoginViewController
+@implementation NewLoginViewController
 
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    [self.navigationController.navigationBar setHidden:YES];
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    self.navigationController.navigationBarHidden = YES;
-    self.loadingView.hidden = YES;
-    self.titleLabel.text = self.titleText;
-    self.bodyLabel.text = self.bodyText;
-    self.disclaimerLabel.text = self.disclaimerText;
-    self.accentImage.image = [UIImage imageNamed:self.imageFile];
+    // Do any additional setup after loading the view.
+//    CAGradientLayer *gradient = [CAGradientLayer layer];
+//    gradient.frame = self.backgroundImageView.bounds;
+//    gradient.colors = [NSArray arrayWithObjects:(id)[UIColor clearColor].CGColor,(id)[UIColor colorWithRed:186.0/255.0f green:233.0/255.0f blue:131.0/255.0f alpha:1.0].CGColor, nil];
+//    [self.backgroundImageView.layer insertSublayer:gradient atIndex:1];
     
-    if (_hideLogInButton){
-        self.LogInButton.hidden = YES;
-    }
-    
-    if (_hideLocationServicesButton){
-        self.locationServicesButton.hidden = YES;
-    }
-    if (_hideContinueButton)
-        self.continueButton.hidden = YES;
-    
-    [self hidesBottomBarWhenPushed];
-    
+    CALayer *white = [CALayer layer];
+    white.frame = self.backgroundImageView.bounds;
+    white.backgroundColor = [[UIColor blackColor] CGColor];
+    white.opacity = 0.5f;
+    [self.backgroundImageView.layer insertSublayer:white atIndex:0];
+     
     
 }
 
-/* Login to facebook method */
-- (IBAction)loginButtonPressed:(id)sender  {
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+#pragma mark - Login Methods
+
+- (IBAction)loginWithFacebookButtonPressed:(id)sender {
     // Set permissions required from the facebook user account
     
     // Add @"user_education_history" for check.
@@ -62,8 +59,8 @@
     NSArray *permissionsArray = @[@"email", @"public_profile", @"user_friends"];
     
     //Add this line for check
-//    CLLocationCoordinate2D santaClaraCoordinates = CLLocationCoordinate2DMake(37.345827,-121.940024);
-    MapViewController *mapViewController = (MapViewController*)[self.navigationController.viewControllers objectAtIndex:0];
+    //    CLLocationCoordinate2D santaClaraCoordinates = CLLocationCoordinate2DMake(37.345827,-121.940024);
+   
     
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -77,11 +74,7 @@
                 [self handleAuthError:error];
             }
         } else if (user.isNew) {
-            [self.loadingView setHidden:NO];
-            [self.activityIndicator setHidden:NO];
-            [self.activityIndicator startAnimating];
-            NSLog(@"User with facebook logged in!");
-            [self.navigationController.navigationBar setHidden:NO];
+        
             //Add this for check
             
             //            [FBRequestConnection startWithGraphPath:@"/me?fields=education.fields(school.fields(id))"
@@ -113,9 +106,7 @@
             //                                                      [defaults setObject:userLocation forKey:@"userLocation"];
             //                                                      [defaults synchronize];
             
-            [mapViewController zoomControl];
-        
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self checkIfLocationHasBeenSubmitted];
             
             //                                                  }
             //                                              }
@@ -129,7 +120,7 @@
             
             /* handle the result */
             //                                  }];
-
+            
             /* Post FBid to database */
             [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                 if (!error) {
@@ -141,58 +132,52 @@
                     [self handleAuthError:error];
                 }
             }];
-
+            
         } else {
-            NSLog(@"User with facebook logged in!");
-            [self.loadingView setHidden:NO];
-            [self.activityIndicator setHidden:NO];
-            [self.activityIndicator startAnimating];
-            [self.navigationController.navigationBar setHidden:NO];
-//            [FBRequestConnection startWithGraphPath:@"/me?fields=education.fields(school.fields(id))"
-//                                         parameters:nil
-//                                         HTTPMethod:@"GET"
-//                                  completionHandler:^(
-//                                                      FBRequestConnection *connection,
-//                                                      id result,
-//                                                      NSError *error
-//                                                      ) {
-//                                      if (!error){
-//                                          
-//                                          NSArray *resultsArray = (NSArray *)[result objectForKey:@"education"];
-//                                          if (resultsArray.count > 0 ){
-//                                              for (NSUInteger i=0; i<[resultsArray count]; i++){
-//                                                  NSDictionary *education = [resultsArray objectAtIndex:i];
-//                                                  
-//                                                  NSDictionary *school = [education objectForKey:@"school"];
-//                                                  long long fbid = [[school objectForKey:@"id"] longLongValue];
-//                                                  NSLog(@"Id ,%lld", fbid);
-//                                                  if (fbid == 112545315425325){
-//                                                      NSLog(@"Santa Clara University Student");
-//                                                      NSLog(@"%lld", fbid);
-//                                                      NSNumber *lat = [NSNumber numberWithDouble:santaClaraCoordinates.latitude];
-//                                                      NSNumber *lon = [NSNumber numberWithDouble:santaClaraCoordinates.longitude];
-//                                                      NSDictionary *userLocation=@{@"lat":lat,@"long":lon};
-//            
-//                                                      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//                                                      [defaults setObject:userLocation forKey:@"userLocation"];
-//                                                      [defaults synchronize];
             
-                                                      [mapViewController zoomControl];
-                                                      
-                                                      [self.navigationController popToRootViewControllerAnimated:YES];
-                                                      
-//                                                  }
-//                                              }
-//                                          }
+            //            [FBRequestConnection startWithGraphPath:@"/me?fields=education.fields(school.fields(id))"
+            //                                         parameters:nil
+            //                                         HTTPMethod:@"GET"
+            //                                  completionHandler:^(
+            //                                                      FBRequestConnection *connection,
+            //                                                      id result,
+            //                                                      NSError *error
+            //                                                      ) {
+            //                                      if (!error){
+            //
+            //                                          NSArray *resultsArray = (NSArray *)[result objectForKey:@"education"];
+            //                                          if (resultsArray.count > 0 ){
+            //                                              for (NSUInteger i=0; i<[resultsArray count]; i++){
+            //                                                  NSDictionary *education = [resultsArray objectAtIndex:i];
+            //
+            //                                                  NSDictionary *school = [education objectForKey:@"school"];
+            //                                                  long long fbid = [[school objectForKey:@"id"] longLongValue];
+            //                                                  NSLog(@"Id ,%lld", fbid);
+            //                                                  if (fbid == 112545315425325){
+            //                                                      NSLog(@"Santa Clara University Student");
+            //                                                      NSLog(@"%lld", fbid);
+            //                                                      NSNumber *lat = [NSNumber numberWithDouble:santaClaraCoordinates.latitude];
+            //                                                      NSNumber *lon = [NSNumber numberWithDouble:santaClaraCoordinates.longitude];
+            //                                                      NSDictionary *userLocation=@{@"lat":lat,@"long":lon};
+            //
+            //                                                      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            //                                                      [defaults setObject:userLocation forKey:@"userLocation"];
+            //                                                      [defaults synchronize];
             
-                                          
-//                                      }else{
-//                                          
-//                                          // There was an error
-//                                      }
         
-                                      /* handle the result */
-//                                  }];
+            [self checkIfLocationHasBeenSubmitted];
+            //                                                  }
+            //                                              }
+            //                                          }
+            
+            
+            //                                      }else{
+            //
+            //                                          // There was an error
+            //                                      }
+            
+            /* handle the result */
+            //                                  }];
             
             /* Post FBid to database */
             [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -207,7 +192,7 @@
             }];
         }
     }];
-
+    
 }
 
 - (void)handleAuthError:(NSError *)error
@@ -249,18 +234,27 @@
     }
 }
 
-- (IBAction)locationServicesPressed:(id)sender {
-    
-    [locationManager requestAlwaysAuthorization];
-    NSLog(@"Loc Pressed");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TurnPage" object:self];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"LocationServicesApproved" object:self];
-    
+-(void)checkIfLocationHasBeenSubmitted {
+    NSLog(@"Users' residence: %@", [PFUser currentUser][@"residenceId"]);
+    if ([[PFUser currentUser] objectForKey:@"residenceId"]){
+        [self.delegate newLoginViewControllerDidLogin:self];
+    } else {
+        [self presentExtraSetupViewController];
+    }
 }
 
-- (IBAction)continueButtonPressed:(id)sender {
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TurnFirstPage" object:self];
+#pragma mark - SubmitLocationViewController
+
+-(void)presentExtraSetupViewController{
+    ExtraSetupViewController *submitLocationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ExtraSetupViewController"];
+    submitLocationViewController.delegate = self;
+    [self presentViewController:submitLocationViewController animated:YES completion:nil];
+}
+
+#pragma mark - SubmitLocationViewController Delegate
+
+-(void)extraSetupViewControllerDidSelectLocation:(ExtraSetupViewController *)controller{
+    [self.delegate newLoginViewControllerDidLogin:self];
 }
 
 @end

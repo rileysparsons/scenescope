@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vt5-oA-acU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Map View Controller-->
@@ -59,7 +59,6 @@
                         <outlet property="scnMapView" destination="NbK-WI-awe" id="ob5-JA-lsy"/>
                         <outlet property="searchDisplayController" destination="gWR-Jr-UkP" id="weN-ad-ZIX"/>
                         <segue destination="pJZ-MV-2cT" kind="push" identifier="MorePushed" id="gGo-Ad-0og"/>
-                        <segue destination="Ofc-Xr-ifc" kind="push" identifier="showLogin" id="NaK-tM-0Sp"/>
                         <segue destination="61g-w7-lIc" kind="push" identifier="locationDetail" id="aLF-3B-8wT"/>
                     </connections>
                 </viewController>
@@ -87,10 +86,67 @@
             </objects>
             <point key="canvasLocation" x="557" y="55"/>
         </scene>
+        <!--New Login View Controller-->
+        <scene sceneID="EkT-mg-bfE">
+            <objects>
+                <viewController storyboardIdentifier="NewLoginViewController" id="cP7-bb-FhY" customClass="NewLoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FbX-eH-LJd"/>
+                        <viewControllerLayoutGuide type="bottom" id="vE7-Vw-y68"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DyZ-fw-hgm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="page2.png" translatesAutoresizingMaskIntoConstraints="NO" id="KJR-Gs-uuU">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxG-nB-9Fb">
+                                <rect key="frame" x="24" y="506" width="273" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Continue with Facebook" backgroundImage="roundedCornersRectangle">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginWithFacebookButtonPressed:" destination="cP7-bb-FhY" eventType="touchUpInside" id="pUt-yN-ZaZ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SceneScope" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZiE-wJ-bOV">
+                                <rect key="frame" x="22" y="28" width="277" height="85"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="What are you doing tonight?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTG-MC-b0p">
+                                <rect key="frame" x="52" y="146" width="217" height="62"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="telescopeFirstScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="v2T-mF-l9u">
+                                <rect key="frame" x="46" y="94" width="229" height="65"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vE7-Vw-y68" firstAttribute="top" secondItem="KJR-Gs-uuU" secondAttribute="bottom" id="6Ui-49-Ez8"/>
+                            <constraint firstItem="KJR-Gs-uuU" firstAttribute="leading" secondItem="DyZ-fw-hgm" secondAttribute="leading" id="KRJ-aU-ARm"/>
+                            <constraint firstAttribute="trailing" secondItem="KJR-Gs-uuU" secondAttribute="trailing" id="kNv-R7-5tW"/>
+                            <constraint firstItem="KJR-Gs-uuU" firstAttribute="top" secondItem="DyZ-fw-hgm" secondAttribute="top" id="rrw-t5-65i"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundImageView" destination="KJR-Gs-uuU" id="xjI-Hw-Cdf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HE8-Pb-LN7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="656" y="815"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="EKL-q5-deX">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vt5-oA-acU" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="InitialNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="vt5-oA-acU" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="OAr-Gl-NtV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -299,7 +355,7 @@
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fl-lB-EYF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
-                                <color key="tintColor" patternImage="6CD16B42-DF65-433E-8945-EA635E73A6CF" colorSpace="pattern"/>
+                                <color key="tintColor" patternImage="DFE2440F-6029-4DF7-B756-442393368652" colorSpace="pattern"/>
                             </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wcN-iw-GuJ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
@@ -708,7 +764,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="6CD16B42-DF65-433E-8945-EA635E73A6CF" width="256" height="256">
+        <image name="AllowLocationServicesButton.png" width="273" height="42"/>
+        <image name="DFE2440F-6029-4DF7-B756-442393368652" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -5150,11 +5207,12 @@ BA6JAAQOkQAEDp4ABA6jAAQOpQAEDqcABA6sAAQOtAAEDrcABA68AAQOxAAEDscABA7ZAAQO3AAEDuEA
 AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
 </mutableData>
         </image>
-        <image name="AllowLocationServicesButton.png" width="273" height="42"/>
         <image name="LogInWithFacebookButton.png" width="273" height="42"/>
         <image name="beginSignUpButton.png" width="273" height="42"/>
         <image name="openingImage.png" width="640" height="1136"/>
+        <image name="page2.png" width="640" height="1136"/>
         <image name="pickerViewControllerBackground.png" width="640" height="1136"/>
+        <image name="roundedCornersRectangle" width="276" height="45"/>
         <image name="telescopeFirstScreen.png" width="284" height="50"/>
         <image name="zoomUserLocation.png" width="22" height="22"/>
     </resources>

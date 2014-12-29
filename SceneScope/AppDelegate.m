@@ -8,14 +8,18 @@
 
 #import "AppDelegate.h"
 #import "MapViewController.h"
+#import "NewLoginViewController.h"
 #import <Parse/Parse.h>
 #import "SSLocation.h"
 #import "SSUser.h"
 
+@interface AppDelegate () <NewLoginViewControllerDelegate>
+
+@end
+
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self.window makeKeyAndVisible];
 
     // Register Parse Subclass
@@ -38,9 +42,60 @@
     
     [self customizeUserInterface];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIAlertView * alert;
+    
+    //We have to make sure that the Background App Refresh is enable for the Location updates to work in the background.
+    if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied){
+        
+        alert = [[UIAlertView alloc]initWithTitle:@""
+                                          message:@"The app doesn't work without the Background App Refresh enabled. To turn it on, go to Settings > General > Background App Refresh"
+                                         delegate:nil
+                                cancelButtonTitle:@"Ok"
+                                otherButtonTitles:nil, nil];
+        [alert show];
+        
+    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted){
+        
+        alert = [[UIAlertView alloc] initWithTitle:@""
+                                          message:@"The functions of this app are limited because the Background App Refresh is disable."
+                                         delegate:nil
+                                cancelButtonTitle:@"Ok"
+                                otherButtonTitles:nil, nil];
+        [alert show];
+        
+    } else{
+        
+        self.locationTracker = [[LocationTracker alloc]init];
+        [self.locationTracker startLocationTracking];
+        
+        //Send the best location to server every 60 seconds
+        //You may adjust the time interval depends on the need of your app.
+        NSTimeInterval time = 300.0;
+        self.locationUpdateTimer =
+        [NSTimer scheduledTimerWithTimeInterval:time
+                                         target:self
+                                       selector:@selector(updateLocation)
+                                       userInfo:nil
+                                        repeats:YES];
+    }
+    if ([PFUser currentUser]){
+        [self presentHomeViewController];
+        
+    } else {
+        NSLog(@"present Login");
+        [self presentLoginViewController];
+    }
+    
     return YES;
 }
 
+-(void)updateLocation{
+    NSLog(@"updateLocation");
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]){
+        [self.locationTracker updateLocationToServer];
+    }
+}
 
 -(void)customizeUserInterface {
     //Customize Navigation Bar
@@ -99,6 +154,28 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 
+#pragma mark LoginViewController
+- (void)presentLoginViewController {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    NewLoginViewController *newLoginViewController = [storyboard instantiateViewControllerWithIdentifier:@"NewLoginViewController"];
+    newLoginViewController.delegate = self;
+    self.window.rootViewController = newLoginViewController;
+    [self.window makeKeyAndVisible];
+}
 
+#pragma mark HomeViewController
+
+- (void)presentHomeViewController {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavigationController"];
+    [self.window makeKeyAndVisible];
+    NSLog(@"present called!");
+}
+
+#pragma mark LoginViewController delegate methods
+-(void)newLoginViewControllerDidLogin:(NewLoginViewController *)controller{
+    [self presentHomeViewController];
+}
 
 @end
