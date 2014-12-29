@@ -58,6 +58,9 @@
 		F18C4A9818EE6E5800120197 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C4A9718EE6E5800120197 /* SystemConfiguration.framework */; };
 		F18C775919D748F900357FC1 /* SSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C775819D748F900357FC1 /* SSLocation.m */; };
 		F194916618EE780700F0B36D /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F194916518EE780700F0B36D /* Parse.framework */; };
+		F1973B101A15C0DE0071C3F9 /* LocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = F1973B0B1A15C0DE0071C3F9 /* LocationTracker.m */; };
+		F1973B111A15C0DE0071C3F9 /* BackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F1973B0D1A15C0DE0071C3F9 /* BackgroundTaskManager.m */; };
+		F1973B121A15C0DE0071C3F9 /* LocationShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F1973B0F1A15C0DE0071C3F9 /* LocationShareModel.m */; };
 		F1A464FA19033F5400EDB516 /* SceneScope basic logo more page.png in Resources */ = {isa = PBXBuildFile; fileRef = F1A464F919033F5400EDB516 /* SceneScope basic logo more page.png */; };
 		F1A464FC190340EA00EDB516 /* SceneScope basic logo more page@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1A464FB190340EA00EDB516 /* SceneScope basic logo more page@2x.png */; };
 		F1A962C319A80C5600557C66 /* openingImageSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = F1A962C219A80C5600557C66 /* openingImageSmall.png */; };
@@ -184,6 +187,12 @@
 		F18C775719D748F900357FC1 /* SSLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLocation.h; sourceTree = "<group>"; };
 		F18C775819D748F900357FC1 /* SSLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLocation.m; sourceTree = "<group>"; };
 		F194916518EE780700F0B36D /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		F1973B0A1A15C0DE0071C3F9 /* LocationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTracker.h; sourceTree = "<group>"; };
+		F1973B0B1A15C0DE0071C3F9 /* LocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTracker.m; sourceTree = "<group>"; };
+		F1973B0C1A15C0DE0071C3F9 /* BackgroundTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundTaskManager.h; sourceTree = "<group>"; };
+		F1973B0D1A15C0DE0071C3F9 /* BackgroundTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTaskManager.m; sourceTree = "<group>"; };
+		F1973B0E1A15C0DE0071C3F9 /* LocationShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationShareModel.h; sourceTree = "<group>"; };
+		F1973B0F1A15C0DE0071C3F9 /* LocationShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationShareModel.m; sourceTree = "<group>"; };
 		F1A464F919033F5400EDB516 /* SceneScope basic logo more page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SceneScope basic logo more page.png"; sourceTree = "<group>"; };
 		F1A464FB190340EA00EDB516 /* SceneScope basic logo more page@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SceneScope basic logo more page@2x.png"; sourceTree = "<group>"; };
 		F1A962C219A80C5600557C66 /* openingImageSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = openingImageSmall.png; sourceTree = "<group>"; };
@@ -350,6 +359,7 @@
 				F10AF5E31A0D8BFC00B8900B /* Annotations */,
 				F161A34119252103007C2B6A /* OverlayAnnotationView.h */,
 				F161A34219252103007C2B6A /* OverlayAnnotationView.m */,
+				F1973B091A15C0BF0071C3F9 /* BackgroundLocation */,
 				F18C4A1218EE661600120197 /* LocationCell.h */,
 				F18C4A1318EE661600120197 /* LocationCell.m */,
 				F10AF5E41A0D8C2100B8900B /* Parse Subclasses */,
@@ -389,6 +399,19 @@
 				F18C4A0418EE64AB00120197 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F1973B091A15C0BF0071C3F9 /* BackgroundLocation */ = {
+			isa = PBXGroup;
+			children = (
+				F1973B0A1A15C0DE0071C3F9 /* LocationTracker.h */,
+				F1973B0B1A15C0DE0071C3F9 /* LocationTracker.m */,
+				F1973B0C1A15C0DE0071C3F9 /* BackgroundTaskManager.h */,
+				F1973B0D1A15C0DE0071C3F9 /* BackgroundTaskManager.m */,
+				F1973B0E1A15C0DE0071C3F9 /* LocationShareModel.h */,
+				F1973B0F1A15C0DE0071C3F9 /* LocationShareModel.m */,
+			);
+			name = BackgroundLocation;
 			sourceTree = "<group>";
 		};
 		F1B1793F1970AD4D00C37522 /* View Controllers */ = {
@@ -541,6 +564,11 @@
 				TargetAttributes = {
 					F18C49DE18EE64A900120197 = {
 						DevelopmentTeam = ST4Y5DTQ65;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					F18C49F918EE64AB00120197 = {
 						TestTargetID = F18C49DE18EE64A900120197;
@@ -677,10 +705,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1973B111A15C0DE0071C3F9 /* BackgroundTaskManager.m in Sources */,
 				F18C4A4418EE66E200120197 /* AppDelegate.m in Sources */,
 				F1B179421970B1C200C37522 /* TextDisplayViewController.m in Sources */,
 				F10FB1D2199051A400856789 /* DetailViewController.m in Sources */,
 				F1B4F6F31999881600F91975 /* ExtraSetupViewController.m in Sources */,
+				F1973B121A15C0DE0071C3F9 /* LocationShareModel.m in Sources */,
 				F18C4A1A18EE661600120197 /* LocationCell.m in Sources */,
 				F18C775919D748F900357FC1 /* SSLocation.m in Sources */,
 				F1F6C32919844D2600AC8512 /* LoginViewController.m in Sources */,
@@ -694,6 +724,7 @@
 				F11D5715198B2E5B00A4CDFA /* StartViewController.m in Sources */,
 				F15D1D96195FCC3C007448E4 /* MoreTableViewController.m in Sources */,
 				F18C4A2718EE662700120197 /* MapViewController.m in Sources */,
+				F1973B101A15C0DE0071C3F9 /* LocationTracker.m in Sources */,
 				C201B53F19FB0EB9006CE23B /* SSUser.m in Sources */,
 				F1A962C819A8616F00557C66 /* SubmitLocationViewController.m in Sources */,
 			);

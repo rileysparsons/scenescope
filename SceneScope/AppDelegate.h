@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "MapViewController.h"
+#import "LocationTracker.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
 
 }
 
+@property LocationTracker * locationTracker;
+@property (nonatomic) NSTimer* locationUpdateTimer;
 @property (strong, nonatomic) UIWindow *window;
 
 @end

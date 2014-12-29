@@ -53,6 +53,12 @@
     return YES;
 }
 
+-(void)updateLocation {
+    NSLog(@"updateLocation");
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]){
+    [self.locationTracker updateLocationToServer];
+    }
+}
 
 -(void)customizeUserInterface {
     //Customize Navigation Bar
