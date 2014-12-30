@@ -14,12 +14,14 @@
 @interface UserLocationAnnotation : NSObject <MKAnnotation>
 
 
-@property (nonatomic, strong) PFUser *object;
+@property (nonatomic, strong) PFObject *object;
 @property (nonatomic) NSArray *residenceId;
 @property (nonatomic) PFGeoPoint *currentLocation;
 
 -(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate andResidenceId:(NSArray*)residenceId;
 
-- (id)initWithSSUser:(PFUser *)aUser;
+- (id)initWithSSUser:(PFObject *)aUser;
+- (BOOL)locationIsEqual:(id)other;
+
 
 @end

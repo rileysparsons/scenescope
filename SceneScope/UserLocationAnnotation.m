@@ -23,7 +23,7 @@
     return CLLocationCoordinate2DMake(self.currentLocation.latitude, self.currentLocation.longitude);
 }
 
-- (id)initWithSSUser:(PFUser *)aUser;
+- (id)initWithSSUser:(PFObject *)aUser;
 {
     
     
@@ -43,6 +43,15 @@
     return [self initWithCoordinate:aCoordinate andResidenceId:residenceId];
             
     
+}
+
+- (BOOL)locationIsEqual:(id)other {
+   
+    UserLocationAnnotation *post = (UserLocationAnnotation *)other;
+    
+    // Fallback to properties
+    return (post.coordinate.latitude == self.coordinate.latitude &&
+            post.coordinate.longitude == self.coordinate.longitude);
 }
 
 

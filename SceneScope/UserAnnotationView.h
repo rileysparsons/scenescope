@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) UIImageView* imageView;
 
+-(void)refresh;
+
 @end

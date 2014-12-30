@@ -36,6 +36,10 @@
 	
 }
 
+-(void)setAnnotation:(id<MKAnnotation>)annotation{
+    [super setAnnotation:annotation];
+    [self refresh];
+}
 
 //-(void)setCalloutAccessory {
 //    
@@ -48,6 +52,16 @@
 //    [self setRightCalloutAccessoryView:rightButton];
 //    
 //}
+
+-(void)refresh{
+    [UIView animateWithDuration:.5 animations:^{
+        self.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:.5 animations:^{
+            self.alpha = 1.0f;
+        } completion:nil];
+    }];
+}
 
 @end
 
