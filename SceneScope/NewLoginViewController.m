@@ -7,7 +7,7 @@
 //
 
 #import "NewLoginViewController.h"
-#import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
+#import <Facebook-iOS-SDK/FacebookSDK/FacebookSDK.h>
 #import "ExtraSetupViewController.h"
 #import <Parse/Parse.h>
 

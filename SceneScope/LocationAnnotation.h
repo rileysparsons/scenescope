@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) PFGeoPoint *geopoint;
 
-@property (nonatomic, strong) NSArray *nearbyUsers;
+@property (nonatomic, strong) NSMutableArray *nearbyUsers;
 
 @property (nonatomic, strong) NSString *affiliation;
 

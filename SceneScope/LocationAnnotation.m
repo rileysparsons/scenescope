@@ -40,6 +40,12 @@ subtitle = _subtitle, residents = _residents, type = _type, affiliation = _affil
     return CLLocationCoordinate2DMake(self.geopoint.latitude, self.geopoint.longitude);
 }
 
+-(NSMutableArray*)nearbyUsers{
+    if (!_nearbyUsers)
+    _nearbyUsers = [[NSMutableArray alloc] init];
+    return _nearbyUsers;
+}
+
 - (id)initWithSSLocation:(SSLocation *)aLocation;
 {
     

@@ -23,6 +23,8 @@
 
 @interface FBAppBridgeScheme : NSObject
 
++ (void)updateDialogConfigs;
+
 @property (nonatomic, copy) NSString *version;
 
 // Notably these can return nil if no valid scheme was found for the device (i.e,. related app is not installed).
@@ -35,6 +37,6 @@
 + (instancetype)bridgeSchemeForFBMessengerForOpenGraphActionShareDialogParams:(FBOpenGraphActionParams *)params;
 
 + (BOOL)isSupportedScheme:(NSString *)scheme;
-- (NSURL *)urlForMethod:(NSString *)method queryParams:(NSDictionary *)queryParams;
+- (NSURL *)URLForMethod:(NSString *)method queryParams:(NSDictionary *)queryParams;
 
 @end

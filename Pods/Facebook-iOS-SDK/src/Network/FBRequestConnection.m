@@ -93,9 +93,7 @@ typedef NS_ENUM(NSInteger, FBGraphApiErrorAccessTokenSubcode) {
 // ----------------------------------------------------------------------------
 // Private properties and methods
 
-@interface FBRequestConnection () <FBURLConnectionDelegate, FBRequestConnectionRetryManagerDelegate> {
-    BOOL _errorBehavior;
-}
+@interface FBRequestConnection () <FBURLConnectionDelegate, FBRequestConnectionRetryManagerDelegate>
 
 @property (nonatomic, retain) FBURLConnection *connection;
 @property (nonatomic, retain) NSMutableArray *requests;
@@ -149,14 +147,9 @@ typedef NS_ENUM(NSInteger, FBGraphApiErrorAccessTokenSubcode) {
     self.internalUrlRequest = request;
 }
 
-- (FBRequestConnectionErrorBehavior)errorBehavior
-{
-    return _errorBehavior;
-}
-
 - (void)setErrorBehavior:(FBRequestConnectionErrorBehavior)errorBehavior
 {
-    NSAssert(self.requests.count == 0, @"Cannot set errorBehavior after requests have been added");
+    [FBLogger singleShotLogEntry:FBLoggingBehaviorDeveloperErrors logEntry:@"errorBehavior should be set before requests were added. Prior requests will not use the supplied behavior."];
     _errorBehavior = errorBehavior;
 }
 
@@ -453,7 +446,7 @@ typedef NS_ENUM(NSInteger, FBGraphApiErrorAccessTokenSubcode) {
         }
     }
 
-    if (self.internalUrlRequest == nil && !cacheIdentity) {
+    if (!self.deprecatedRequest && self.internalUrlRequest == nil && !cacheIdentity) {
         // If we have all Graph API calls, see if we want to piggyback any internal calls onto
         // the request to reduce round-trips. (The piggybacked calls may themselves be non-Graph
         // API calls, but must be limited to API calls which are batchable. Not all are, which is
@@ -461,7 +454,7 @@ typedef NS_ENUM(NSInteger, FBGraphApiErrorAccessTokenSubcode) {
         // an already-formed request object, since we don't know its structure.
         BOOL safeForPiggyback = YES;
         for (FBRequestMetadata *requestMetadata in self.requests) {
-            if (requestMetadata.request.restMethod) {
+            if (requestMetadata.request.restMethod || requestMetadata.request.versionPart != nil) {
                 safeForPiggyback = NO;
                 break;
             }

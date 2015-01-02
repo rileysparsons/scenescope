@@ -1,1 +1,0 @@
-../../Simple-KML/source/SimpleKMLPolygon.h

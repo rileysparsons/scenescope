@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C1265DB1A0E94B100A9E23C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1265DA1A0E94B100A9E23C /* MapKit.framework */; };
 		1415FD8F1A5111F7006E99A6 /* NewLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415FD8E1A5111F7006E99A6 /* NewLoginViewController.m */; };
+		14BF776A1A571F6000720661 /* UIColor+SceneScopeColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BF77691A571F6000720661 /* UIColor+SceneScopeColor.m */; };
 		C201B53F19FB0EB9006CE23B /* SSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C201B53E19FB0EB9006CE23B /* SSUser.m */; };
 		F10AF5DD1A09AB6400B8900B /* greenUserAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = F10AF5DB1A09AB6400B8900B /* greenUserAnnotation.png */; };
 		F10AF5DE1A09AB6400B8900B /* greenUserAnnotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F10AF5DC1A09AB6400B8900B /* greenUserAnnotation@2x.png */; };
@@ -95,8 +96,6 @@
 		F1DFF30219B421C0009ED494 /* apartmentPinLevel5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1DFF2F619B421BF009ED494 /* apartmentPinLevel5@2x.png */; };
 		F1DFF30319B421C0009ED494 /* apartmentPinLevel6.png in Resources */ = {isa = PBXBuildFile; fileRef = F1DFF2F719B421BF009ED494 /* apartmentPinLevel6.png */; };
 		F1DFF30419B421C0009ED494 /* apartmentPinLevel6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1DFF2F819B421C0009ED494 /* apartmentPinLevel6@2x.png */; };
-		F1EBE061199C0FAF0088EC8F /* disclosureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F1EBE05F199C0FAE0088EC8F /* disclosureButton.png */; };
-		F1EBE062199C0FAF0088EC8F /* disclosureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1EBE060199C0FAF0088EC8F /* disclosureButton@2x.png */; };
 		F1ED0B5519A53E31005B1E19 /* santaClaraRegions.kmz in Resources */ = {isa = PBXBuildFile; fileRef = F1ED0B5419A53E31005B1E19 /* santaClaraRegions.kmz */; };
 		F1ED0B5C19A544DD005B1E19 /* zoomUserLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = F1ED0B5A19A544DD005B1E19 /* zoomUserLocation.png */; };
 		F1ED0B5D19A544DD005B1E19 /* zoomUserLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1ED0B5B19A544DD005B1E19 /* zoomUserLocation@2x.png */; };
@@ -121,8 +120,11 @@
 		0C1265DA1A0E94B100A9E23C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1415FD8D1A5111F7006E99A6 /* NewLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewLoginViewController.h; sourceTree = "<group>"; };
 		1415FD8E1A5111F7006E99A6 /* NewLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewLoginViewController.m; sourceTree = "<group>"; };
+		14BF77681A571F6000720661 /* UIColor+SceneScopeColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+SceneScopeColor.h"; path = "../UIColor+SceneScopeColor.h"; sourceTree = "<group>"; };
+		14BF77691A571F6000720661 /* UIColor+SceneScopeColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SceneScopeColor.m"; path = "../UIColor+SceneScopeColor.m"; sourceTree = "<group>"; };
+		42DAD92BA4A21D560363D73E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4B527CC387AA4E6891C4053F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7D6F80B80044BAF8B0BF04D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		79D802C8CACDC8DB69E87C2A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C201B53D19FB0EB9006CE23B /* SSUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSUser.h; sourceTree = "<group>"; };
 		C201B53E19FB0EB9006CE23B /* SSUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSUser.m; sourceTree = "<group>"; };
 		F10AF5DB1A09AB6400B8900B /* greenUserAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenUserAnnotation.png; sourceTree = "<group>"; };
@@ -231,8 +233,6 @@
 		F1DFF2F619B421BF009ED494 /* apartmentPinLevel5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apartmentPinLevel5@2x.png"; sourceTree = "<group>"; };
 		F1DFF2F719B421BF009ED494 /* apartmentPinLevel6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apartmentPinLevel6.png; sourceTree = "<group>"; };
 		F1DFF2F819B421C0009ED494 /* apartmentPinLevel6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apartmentPinLevel6@2x.png"; sourceTree = "<group>"; };
-		F1EBE05F199C0FAE0088EC8F /* disclosureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosureButton.png; sourceTree = "<group>"; };
-		F1EBE060199C0FAF0088EC8F /* disclosureButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "disclosureButton@2x.png"; sourceTree = "<group>"; };
 		F1ED0B5419A53E31005B1E19 /* santaClaraRegions.kmz */ = {isa = PBXFileReference; lastKnownFileType = file; path = santaClaraRegions.kmz; sourceTree = "<group>"; };
 		F1ED0B5A19A544DD005B1E19 /* zoomUserLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoomUserLocation.png; sourceTree = "<group>"; };
 		F1ED0B5B19A544DD005B1E19 /* zoomUserLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoomUserLocation@2x.png"; sourceTree = "<group>"; };
@@ -279,6 +279,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3800D42330E630282929C015 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				79D802C8CACDC8DB69E87C2A /* Pods.debug.xcconfig */,
+				42DAD92BA4A21D560363D73E /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		F10AF5E31A0D8BFC00B8900B /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,7 +322,7 @@
 				F18C4A0118EE64AB00120197 /* SceneScopeTests */,
 				F18C49E118EE64AA00120197 /* Frameworks */,
 				F18C49E018EE64AA00120197 /* Products */,
-				B7D6F80B80044BAF8B0BF04D /* Pods.xcconfig */,
+				3800D42330E630282929C015 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -359,6 +368,8 @@
 				F10AF5E31A0D8BFC00B8900B /* Annotations */,
 				F161A34119252103007C2B6A /* OverlayAnnotationView.h */,
 				F161A34219252103007C2B6A /* OverlayAnnotationView.m */,
+				14BF77681A571F6000720661 /* UIColor+SceneScopeColor.h */,
+				14BF77691A571F6000720661 /* UIColor+SceneScopeColor.m */,
 				F1973B091A15C0BF0071C3F9 /* BackgroundLocation */,
 				F18C4A1218EE661600120197 /* LocationCell.h */,
 				F18C4A1318EE661600120197 /* LocationCell.m */,
@@ -465,8 +476,6 @@
 				F1DFF30519B421F6009ED494 /* Apartment Pins */,
 				F1ED0B5A19A544DD005B1E19 /* zoomUserLocation.png */,
 				F1ED0B5B19A544DD005B1E19 /* zoomUserLocation@2x.png */,
-				F1EBE05F199C0FAE0088EC8F /* disclosureButton.png */,
-				F1EBE060199C0FAF0088EC8F /* disclosureButton@2x.png */,
 				F1ED0B6419A716A5005B1E19 /* yellowUserAnnotation.png */,
 				F1ED0B6519A716A5005B1E19 /* yellowUserAnnotation@2x.png */,
 				F1B4F6F4199ADB6300F91975 /* pickerViewControllerBackground.png */,
@@ -611,7 +620,6 @@
 				F1A464FA19033F5400EDB516 /* SceneScope basic logo more page.png in Resources */,
 				F10AF5DD1A09AB6400B8900B /* greenUserAnnotation.png in Resources */,
 				F1B4F6F6199ADB6300F91975 /* pickerViewControllerBackground.png in Resources */,
-				F1EBE062199C0FAF0088EC8F /* disclosureButton@2x.png in Resources */,
 				F1DFF2FA19B421C0009ED494 /* apartmentPinLevel1@2x.png in Resources */,
 				F12A578B190C7DF300FC9A70 /* universityPin@2x.png in Resources */,
 				F1DFF2FC19B421C0009ED494 /* apartmentPinLevel2@2x.png in Resources */,
@@ -623,7 +631,6 @@
 				F1F6C3261984478300AC8512 /* Podfile in Resources */,
 				F1ED0B5C19A544DD005B1E19 /* zoomUserLocation.png in Resources */,
 				F169456B198C9CDD00DD1A49 /* AllowLocationServicesButton@2x.png in Resources */,
-				F1EBE061199C0FAF0088EC8F /* disclosureButton.png in Resources */,
 				F1B9C33319B9258F00AF2DC8 /* housePinLevel2.png in Resources */,
 				F1656B0219955CB700DFC6DC /* telescopeFirstScreen@2x.png in Resources */,
 				F11D5718198C5DC500A4CDFA /* LogInWithFacebookButton@2x.png in Resources */,
@@ -695,7 +702,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -706,6 +713,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1973B111A15C0DE0071C3F9 /* BackgroundTaskManager.m in Sources */,
+				14BF776A1A571F6000720661 /* UIColor+SceneScopeColor.m in Sources */,
 				F18C4A4418EE66E200120197 /* AppDelegate.m in Sources */,
 				F1B179421970B1C200C37522 /* TextDisplayViewController.m in Sources */,
 				F10FB1D2199051A400856789 /* DetailViewController.m in Sources */,
@@ -844,7 +852,7 @@
 		};
 		F18C4A0C18EE64AB00120197 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7D6F80B80044BAF8B0BF04D /* Pods.xcconfig */;
+			baseConfigurationReference = 79D802C8CACDC8DB69E87C2A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -871,7 +879,7 @@
 		};
 		F18C4A0D18EE64AB00120197 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7D6F80B80044BAF8B0BF04D /* Pods.xcconfig */;
+			baseConfigurationReference = 42DAD92BA4A21D560363D73E /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

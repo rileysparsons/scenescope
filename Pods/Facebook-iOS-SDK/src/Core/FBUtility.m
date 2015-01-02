@@ -16,6 +16,8 @@
 
 #import "FacebookSDK.h"
 #import "FBAppEvents.h"
+#import "FBAppEvents+Internal.h"
+#import "FBDialogConfig.h"
 #import "FBUtility+Private.h"
 #import "FBGraphObject.h"
 #import "FBLogger.h"
@@ -39,8 +41,34 @@ static const NSString *kAppSettingsFieldSupportsAttribution = @"supports_attribu
 static const NSString *kAppSettingsFieldSupportsImplicitLogging = @"supports_implicit_sdk_logging";
 static const NSString *kAppSettingsFieldEnableLoginTooltip = @"gdpv4_nux_enabled";
 static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_content";
+static const NSString *kAppSettingsFieldDialogConfigs = @"ios_dialog_configs";
+static const NSString *kAppSettingsFieldAppEventsFeatureBitmask = @"app_events_feature_bitmask";
+
+FBTriStateBOOL FBTriStateBOOLFromBOOL(BOOL value) {
+    return value ? FBTriStateBOOLValueYES : FBTriStateBOOLValueNO;
+}
+
+BOOL BOOLFromFBTriStateBOOL(FBTriStateBOOL value, BOOL defaultValue) {
+    switch (value) {
+        case FBTriStateBOOLValueYES:
+            return YES;
+        case FBTriStateBOOLValueNO:
+            return NO;
+        case FBTriStateBOOLValueUnknown:
+            return defaultValue;
+    }
+}
+
+BOOL FBCheckObjectIsEqual(NSObject *a, NSObject *b)
+{
+    return (a == b ? YES : [a isEqual:b]);
+}
 
 @implementation FBUtility
+
+NSString *const FBPersistedAnonymousIDFilename   = @"com-facebook-sdk-PersistedAnonymousID.json";
+NSString *const FBPersistedAnonymousIDKey   = @"anon_id";
+
 
 #pragma mark Object Helpers
 
@@ -153,6 +181,11 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
     [bundleIdentifier hasPrefix:@".com.facebook."];
 }
 
++ (BOOL)isSafariBundleIdentifier:(NSString *)bundleIdentifier
+{
+    return [bundleIdentifier isEqualToString:@"com.apple.mobilesafari"];
+}
+
 #pragma mark - Permissions
 
 + (BOOL)isPublishPermission:(NSString *)permission {
@@ -192,12 +225,17 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
 // with calling with a second appid are undefined (in reality will just return the previously requested app's results).
 + (void)fetchAppSettings:(NSString *)appID
                 callback:(void (^)(FBFetchedAppSettings *, NSError *))callback {
-    if ([FBUtility isFetchedFBAppSettingsStale] || (!g_fetchedAppSettingsError && !g_fetchedAppSettings)) {
+    if ([self isFetchedFBAppSettingsStale] || (!g_fetchedAppSettingsError && !g_fetchedAppSettings)) {
 
         NSString *pingPath = [NSString stringWithFormat:@"%@?fields=%@",
                               appID,
-                              [@[kAppSettingsFieldAppName, kAppSettingsFieldSupportsAttribution, kAppSettingsFieldSupportsImplicitLogging,
-                                 kAppSettingsFieldEnableLoginTooltip, kAppSettingsFieldLoginTooltipContent] componentsJoinedByString:@","]
+                              [@[kAppSettingsFieldAppName,
+                                 kAppSettingsFieldSupportsAttribution,
+                                 kAppSettingsFieldSupportsImplicitLogging,
+                                 kAppSettingsFieldEnableLoginTooltip,
+                                 kAppSettingsFieldLoginTooltipContent,
+                                 kAppSettingsFieldDialogConfigs,
+                                 kAppSettingsFieldAppEventsFeatureBitmask] componentsJoinedByString:@","]
                               ];
         FBRequest *pingRequest = [[[FBRequest alloc] initWithSession:nil graphPath:pingPath] autorelease];
         pingRequest.skipClientToken = YES;
@@ -223,7 +261,8 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
                     [g_fetchedAppSettingsTimestamp release];
                     [g_fetchedAppSettings release];
 
-                    g_fetchedAppSettings = [[FBFetchedAppSettings alloc] initWithAppID:appID];
+                    g_fetchedAppSettings = [[FBFetchedAppSettings alloc] initWithAppID:appID
+                                                               appEventsFeatureOptions:[result[kAppSettingsFieldAppEventsFeatureBitmask] unsignedIntegerValue]];
                     g_fetchedAppSettingsTimestamp = [[NSDate date] retain];
 
                     g_fetchedAppSettings.serverAppName = result[kAppSettingsFieldAppName];
@@ -231,24 +270,42 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
                     g_fetchedAppSettings.supportsImplicitSdkLogging = [result[kAppSettingsFieldSupportsImplicitLogging] boolValue];
                     g_fetchedAppSettings.enableLoginTooltip = [result[kAppSettingsFieldEnableLoginTooltip] boolValue];
                     g_fetchedAppSettings.loginTooltipContent = result[kAppSettingsFieldLoginTooltipContent];
+                    g_fetchedAppSettings.dialogConfigs = [self _parseDialogConfigs:result[kAppSettingsFieldDialogConfigs]];
                 }
             }
-            [FBUtility callTheFetchAppSettingsCallback:callback];
+            [self callTheFetchAppSettingsCallback:callback];
         }];
     } else {
-        [FBUtility callTheFetchAppSettingsCallback:callback];
+        [self callTheFetchAppSettingsCallback:callback];
     }
 }
 
++ (NSDictionary *)_parseDialogConfigs:(NSDictionary *)dialogConfigsDictionary
+{
+    NSMutableDictionary *dialogConfigs = [[[NSMutableDictionary alloc] init] autorelease];
+    NSArray *dialogConfigsArray = dialogConfigsDictionary[@"data"];
+    if ([dialogConfigsArray isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *dialogConfigDictionary in dialogConfigsArray) {
+            if ([dialogConfigDictionary isKindOfClass:[NSDictionary class]]) {
+                FBDialogConfig *dialogConfig = [FBDialogConfig dialogConfigWithDictionary:dialogConfigDictionary];
+                if (dialogConfig) {
+                    dialogConfigs[dialogConfig.name] = dialogConfig;
+                }
+            }
+        }
+    }
+    return dialogConfigs;
+}
+
 + (FBFetchedAppSettings *)fetchedAppSettings {
-    if ([FBUtility isFetchedFBAppSettingsStale]) {
-        [FBUtility fetchAppSettings:g_fetchedAppSettings.appID callback:nil];
+    if ([self isFetchedFBAppSettingsStale]) {
+        [self fetchAppSettings:g_fetchedAppSettings.appID callback:nil];
     }
     return g_fetchedAppSettings;
 }
 
 + (BOOL)isFetchedFBAppSettingsStale {
-    return g_fetchedAppSettingsTimestamp && ([[NSDate date] timeIntervalSinceDate:g_fetchedAppSettingsTimestamp] > APPSETTINGS_STALE_THRESHOLD_SECONDS);
+    return !g_fetchedAppSettingsTimestamp || ([[NSDate date] timeIntervalSinceDate:g_fetchedAppSettingsTimestamp] > APPSETTINGS_STALE_THRESHOLD_SECONDS);
 }
 
 + (void)callTheFetchAppSettingsCallback:(void (^)(FBFetchedAppSettings *, NSError *))callback {
@@ -280,43 +337,125 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
     return [[UIPasteboard pasteboardWithName:@"fb_app_attribution" create:NO] string];
 }
 
-+ (NSString *)advertiserID {
-    NSString *advertiserID = nil;
-    Class ASIdentifierManagerClass = [FBDynamicFrameworkLoader loadClass:@"ASIdentifierManager" withFramework:@"AdSupport"];
-    if ([ASIdentifierManagerClass class]) {
-        ASIdentifierManager *manager = [ASIdentifierManagerClass sharedManager];
-        advertiserID = [[manager advertisingIdentifier] UUIDString];
++ (NSString *)advertiserOrAnonymousID:(BOOL)accessAdvertisingID {
+    
+    NSString *result = nil;
+    
+    // Only access the IDFA (advertisingIdentifier) if the app advertises.
+    if (accessAdvertisingID) {
+        Class ASIdentifierManagerClass = fbdfl_ASIdentifierManagerClass();
+        if ([ASIdentifierManagerClass class]) {
+            ASIdentifierManager *manager = [ASIdentifierManagerClass sharedManager];
+            result = [[manager advertisingIdentifier] UUIDString];
+        }
     }
-    return advertiserID;
+    
+    if (!result) {
+        
+        // Grab previously written anonymous ID and, if none have been generted, create and
+        // persist a new one which will remain associated with this app.
+        result = [self retrievePersistedAnonymousID];
+        if (!result) {
+            
+            // Generate a new anonymous ID.  Create as a UUID, but then prepend the fairly
+            // arbitrary 'XZ' to the front so it's easily distinguishable from IDFA's which
+            // will only contain hex.
+            CFUUIDRef uuid = CFUUIDCreate(NULL);
+            NSString *uuidString = (NSString *) CFUUIDCreateString(NULL, uuid);
+            
+            result = [NSString stringWithFormat:@"XZ%@", uuidString];
+            
+            [self persistAnonymousID:result];
+            CFRelease(uuid);
+            [uuidString release];
+        }
+    }
+    
+    return result;
 }
+
++ (void)persistAnonymousID:(NSString *)anonymousID {
+    
+    [FBAppEvents ensureOnMainThread];
+    NSDictionary *data = @{ FBPersistedAnonymousIDKey : anonymousID };
+    NSString *content = [FBUtility simpleJSONEncode:data];
+    
+    [content writeToFile:[FBAppEvents persistenceLibraryFilePath:FBPersistedAnonymousIDFilename]
+              atomically:YES
+                encoding:NSStringEncodingConversionAllowLossy
+                   error:nil];
+}
+
++ (NSString *)retrievePersistedAnonymousID {
+    [FBAppEvents ensureOnMainThread];
+    NSString *content =
+        [[NSString alloc] initWithContentsOfFile:[FBAppEvents persistenceLibraryFilePath:FBPersistedAnonymousIDFilename]
+                                    usedEncoding:nil
+                                           error:nil];
+    NSDictionary *results = [FBUtility simpleJSONDecode:content];
+    [content release];
+    return [results objectForKey:FBPersistedAnonymousIDKey];
+}
+
 
 + (FBAdvertisingTrackingStatus)advertisingTrackingStatus {
     if ([FBSettings restrictedTreatment] == FBRestrictedTreatmentYES) {
         return AdvertisingTrackingDisallowed;
     }
-    FBAdvertisingTrackingStatus status = AdvertisingTrackingUnspecified;
-    Class ASIdentifierManagerClass = [FBDynamicFrameworkLoader loadClass:@"ASIdentifierManager" withFramework:@"AdSupport"];
-    if ([ASIdentifierManagerClass class]) {
-        ASIdentifierManager *manager = [ASIdentifierManagerClass sharedManager];
-        if (manager) {
-            status = [manager isAdvertisingTrackingEnabled] ? AdvertisingTrackingAllowed : AdvertisingTrackingDisallowed;
+    
+    static dispatch_once_t fetchAdvertisingTrackingStatusOnce;
+    static FBAdvertisingTrackingStatus status;
+    
+    dispatch_once(&fetchAdvertisingTrackingStatusOnce, ^{
+        status = AdvertisingTrackingUnspecified;
+        Class ASIdentifierManagerClass = fbdfl_ASIdentifierManagerClass();
+        if ([ASIdentifierManagerClass class]) {
+            ASIdentifierManager *manager = [ASIdentifierManagerClass sharedManager];
+            if (manager) {
+                status = [manager isAdvertisingTrackingEnabled] ? AdvertisingTrackingAllowed : AdvertisingTrackingDisallowed;
+            }
         }
-    }
+    });
+
     return status;
 }
 
-+ (void)updateParametersWithEventUsageLimitsAndBundleInfo:(NSMutableDictionary *)parameters
-                          accessAdvertisingTrackingStatus:(BOOL)accessAdvertisingTrackingStatus {
++ (NSMutableDictionary<FBGraphObject> *)activityParametersDictionaryForEvent:(NSString *)eventCategory
+                                                        includeAttributionID:(BOOL)includeAttributionID
+                                                          implicitEventsOnly:(BOOL)implicitEventsOnly
+                                                   shouldAccessAdvertisingID:(BOOL)shouldAccessAdvertisingID {
 
-    // Only add the iOS global value if we have a definitive allowed/disallowed on advertising tracking.  Otherwise,
-    // absence of this parameter is to be interpreted as 'unspecified'.
-    if (accessAdvertisingTrackingStatus) {
-        FBAdvertisingTrackingStatus advertisingTrackingStatus = [FBUtility advertisingTrackingStatus];
-        if (advertisingTrackingStatus != AdvertisingTrackingUnspecified) {
-            BOOL allowed = (advertisingTrackingStatus == AdvertisingTrackingAllowed);
-            [parameters setObject:[[NSNumber numberWithBool:allowed] stringValue]
-                           forKey:@"advertiser_tracking_enabled"];
+    NSMutableDictionary<FBGraphObject> *parameters = [FBGraphObject graphObject];
+    [parameters setObject:eventCategory forKey:@"event"];
+
+    NSString *attributionID = nil;
+    if (includeAttributionID) {
+        attributionID = [FBUtility attributionID];  // Only present on iOS 6 and below.
+        if (attributionID) {
+            [parameters setObject:attributionID forKey:@"attribution"];
         }
+    }
+    
+    BOOL canGetAdvertisingID = !implicitEventsOnly && shouldAccessAdvertisingID;
+    if (!(attributionID && !canGetAdvertisingID)) {
+        NSString *advertiserOrAnonymousID = [FBUtility advertiserOrAnonymousID:canGetAdvertisingID];
+        if (advertiserOrAnonymousID) {
+            [parameters setObject:advertiserOrAnonymousID forKey:@"advertiser_id"];
+        }
+    }
+    
+    if (canGetAdvertisingID) {
+        NSString *oldAnonymousID = [self retrievePersistedAnonymousID];
+        if (oldAnonymousID) {
+            [parameters setObject:oldAnonymousID forKey:@"old_anon_id"];
+        }
+    }
+    
+    FBAdvertisingTrackingStatus advertisingTrackingStatus = [self advertisingTrackingStatus];
+    if (advertisingTrackingStatus != AdvertisingTrackingUnspecified) {
+        BOOL allowed = (advertisingTrackingStatus == AdvertisingTrackingAllowed);
+        [parameters setObject:[[NSNumber numberWithBool:allowed] stringValue]
+                       forKey:@"advertiser_tracking_enabled"];
     }
 
     [parameters setObject:[[NSNumber numberWithBool:!FBSettings.limitEventAndDataUsage] stringValue] forKey:@"application_tracking_enabled"];
@@ -336,16 +475,16 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
                 [urlSchemes addObjectsFromArray:schemesForType];
             }
         }
-        bundleIdentifier = mainBundle.bundleIdentifier;
-        longVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
-        shortVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        bundleIdentifier = [mainBundle.bundleIdentifier copy];
+        longVersion = [[mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"] copy];
+        shortVersion = [[mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"] copy];
     });
 
     if (bundleIdentifier.length > 0) {
         [parameters setObject:bundleIdentifier forKey:@"bundle_id"];
     }
     if (urlSchemes.count > 0) {
-        [parameters setObject:[FBUtility simpleJSONEncode:urlSchemes] forKey:@"url_schemes"];
+        [parameters setObject:[self simpleJSONEncode:urlSchemes] forKey:@"url_schemes"];
     }
     if (longVersion.length > 0) {
         [parameters setObject:longVersion forKey:@"bundle_version"];
@@ -353,15 +492,16 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
     if (shortVersion.length > 0) {
         [parameters setObject:shortVersion forKey:@"bundle_short_version"];
     }
-
+    
+    return parameters;
 }
 
 #pragma mark - JSON Encode / Decode
 
 + (NSString *)simpleJSONEncode:(id)data {
-    return [FBUtility simpleJSONEncode:data
-                                 error:nil
-                        writingOptions:0];
+    return [self simpleJSONEncode:data
+                            error:nil
+                   writingOptions:0];
 }
 
 + (NSString *)simpleJSONEncode:(id)data
@@ -380,7 +520,7 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
 }
 
 + (id)simpleJSONDecode:(NSString *)jsonEncoding {
-    return [FBUtility simpleJSONDecode:jsonEncoding error:nil];
+    return [self simpleJSONDecode:jsonEncoding error:nil];
 }
 
 + (id)simpleJSONDecode:(NSString *)jsonEncoding
@@ -403,10 +543,10 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
 
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     if ([url query]) {
-        [result addEntriesFromDictionary:[FBUtility dictionaryByParsingURLQueryPart:[url query]]];
+        [result addEntriesFromDictionary:[self dictionaryByParsingURLQueryPart:[url query]]];
     }
     if ([url fragment]) {
-        [result addEntriesFromDictionary:[FBUtility dictionaryByParsingURLQueryPart:[url fragment]]];
+        [result addEntriesFromDictionary:[self dictionaryByParsingURLQueryPart:[url fragment]]];
     }
 
     return result;
@@ -436,8 +576,8 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
         }
 
         if (key && value) {
-            [result setObject:[FBUtility stringByURLDecodingString:value]
-                       forKey:[FBUtility stringByURLDecodingString:key]];
+            [result setObject:[self stringByURLDecodingString:value]
+                       forKey:[self stringByURLDecodingString:key]];
         }
     }
     return result;
@@ -453,7 +593,7 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
             }
             id value = queryParameters[key];
             if ([value isKindOfClass:[NSString class]]) {
-                value = [FBUtility stringByURLEncodingString:value];
+                value = [self stringByURLEncodingString:value];
             }
             [queryString appendFormat:@"%@=%@", key, value];
             hasParameters = YES;
@@ -489,12 +629,12 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
 }
 
 + (NSString *)buildFacebookUrlWithPre:(NSString *)pre {
-    return [FBUtility buildFacebookUrlWithPre:pre post:nil version:nil];
+    return [self buildFacebookUrlWithPre:pre post:nil version:nil];
 }
 
 + (NSString *)buildFacebookUrlWithPre:(NSString *)pre
                              withPost:(NSString *)post {
-    return [FBUtility buildFacebookUrlWithPre:pre post:post version:nil];
+    return [self buildFacebookUrlWithPre:pre post:post version:nil];
 }
 
 + (NSString *)buildFacebookUrlWithPre:(NSString *)pre
@@ -512,6 +652,7 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
     post = post ?: @"";
 
     if ([post length] > 2 &&
+        version.length &&
         // clear the auto version if there is already a version in the form v#.# in path
         [post characterAtIndex:1] == 'v') {
         int grammarPart = 0;
@@ -549,7 +690,7 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
 }
 
 + (NSString *)dialogBaseURL {
-    return [FBUtility buildFacebookUrlWithPre:@"https://m." withPost:@"/dialog/"];
+    return [self buildFacebookUrlWithPre:@"https://m." withPost:@"/dialog/"];
 }
 
 #pragma mark - System Info
@@ -650,7 +791,7 @@ static const NSString *kAppSettingsFieldLoginTooltipContent = @"gdpv4_nux_conten
 + (void)deleteFacebookCookies {
     NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *facebookCookies = [cookies cookiesForURL:
-                                [NSURL URLWithString:[FBUtility dialogBaseURL]]];
+                                [NSURL URLWithString:[self dialogBaseURL]]];
 
     for (NSHTTPCookie *cookie in facebookCookies) {
         [cookies deleteCookie:cookie];

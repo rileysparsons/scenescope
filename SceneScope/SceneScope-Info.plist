@@ -40,7 +40,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>SceneScope uses your location to display more accurate information of your surroundings.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -20,7 +20,7 @@
     
     if (self != nil && [annotation isKindOfClass:[LocationAnnotation class]]){
         self.canShowCallout = YES;
-        
+        [self setCalloutAccessory];
         CGRect frame = self.frame;
         
         frame.size = CGSizeMake(22.0, 22.0);

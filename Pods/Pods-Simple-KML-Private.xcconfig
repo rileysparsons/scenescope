@@ -1,5 +1,0 @@
-#include "Pods-Simple-KML.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/Simple-KML" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/Bolts" "${PODS_ROOT}/Headers/Facebook-iOS-SDK" "${PODS_ROOT}/Headers/Facebook-iOS-SDK/FacebookSDK" "${PODS_ROOT}/Headers/Simple-KML" "${PODS_ROOT}/Headers/TPKeyboardAvoiding" "${PODS_ROOT}/Headers/TouchXML" "${PODS_ROOT}/Headers/objective-zip" ${PODS_SIMPLE_KML_HEADER_SEARCH_PATHS}
-OTHER_LDFLAGS = -ObjC ${PODS_SIMPLE_KML_OTHER_LDFLAGS}
-PODS_ROOT = ${SRCROOT}

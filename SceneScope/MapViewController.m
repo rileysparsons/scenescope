@@ -75,6 +75,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    int r = (int)(255.0 * 186.0/255.0f);
+    int g = (int)(255.0 * 233.0/255.0f);
+    int b = (int)(255.0 * 131.0/255.0f);
+    
+    NSLog(@"%@", [NSString stringWithFormat:@"%02x%02x%02x",r,g,b]);
+    
     self.scnCircle = [MKCircle circleWithCenterCoordinate:(CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)) radius:2414.02];
     self.navigationItem.title = @"Map";
     
@@ -199,6 +206,7 @@
         
             [_allUserAnnotations addObjectsFromArray:newPosts];
             [_allUserAnnotations removeObjectsInArray:postsToRemove];
+            [self adjustViewForActivity];
             NSLog(@"all Posts: %lu", (unsigned long)[_allUserAnnotations count]);
         }
     }];
@@ -502,31 +510,57 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 #pragma mark - MapView
 
--(void)adjustViewForActivity{
+//-(void)adjustViewForActivity{
+//
+//    
+//    for (LocationAnnotation *annotation in [self.scnMapView annotations]){
+//        
+//        if ([annotation isKindOfClass:[LocationAnnotation class]]){
+//            
+//            _nearbyQuery = [PFUser query];
+//            PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+//            [_nearbyQuery whereKey:@"currentLocation" nearGeoPoint:geoPoint withinMiles:.02];
+//            [_nearbyQuery findObjectsInBackgroundWithBlock:^(NSArray *userObjects, NSError *error) {
+//                if (error){
+//                    
+//                } else {
+//                    if (userObjects.count != [annotation.nearbyUsers count]){
+//                        annotation.nearbyUsers = userObjects;
+//                        NSLog(@"%@", annotation.nearbyUsers);
+//                        MKAnnotationView *annView = [scnMapView viewForAnnotation:annotation];
+//                        [self configureAnnotationView:annView];
+//                    }
+//                }
+//                
+//            }];
+//        }
+//    }
+//        
+//}
 
+-(void) adjustViewForActivity {
+    for (LocationAnnotation *annotation in _mapLocations){
     
-    for (LocationAnnotation *annotation in [self.scnMapView annotations]){
         
         if ([annotation isKindOfClass:[LocationAnnotation class]]){
-            
-            _nearbyQuery = [PFUser query];
-            PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
-            [_nearbyQuery whereKey:@"currentLocation" nearGeoPoint:geoPoint withinMiles:.02];
-            [_nearbyQuery findObjectsInBackgroundWithBlock:^(NSArray *userObjects, NSError *error) {
-                if (error){
-                    
-                } else {
-                    if (userObjects.count != [annotation.nearbyUsers count]){
-                        annotation.nearbyUsers = userObjects;
+            annotation.nearbyUsers = nil;
+            for (UserLocationAnnotation *userLocationAnnotation in _allUserAnnotations){
+                
+                if ([userLocationAnnotation isKindOfClass:[UserLocationAnnotation class]]){
+                    CLLocation *annotationLocation = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+                    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:userLocationAnnotation.coordinate.latitude longitude:userLocationAnnotation.coordinate.longitude];
+                   
+                    if ([annotationLocation distanceFromLocation:userLocation] < 30) {
+                        
+                        [annotation.nearbyUsers addObject:userLocationAnnotation];
                         MKAnnotationView *annView = [scnMapView viewForAnnotation:annotation];
                         [self configureAnnotationView:annView];
+                        NSLog(@"%@", annotation.nearbyUsers);
                     }
                 }
-                
-            }];
+            }
         }
     }
-        
 }
 
 -(void)configureAnnotationView:(MKAnnotationView *)av
@@ -852,12 +886,25 @@ shouldReloadTableForSearchString:(NSString *)searchString
     }
     
     if(self.scnMapView.camera.altitude > maximumAltitude && self.scnMapView.camera.pitch == 0  && self.mapFinishedLoading == YES) {
-       
-        UIAlertView *zoomedOutAlert = [[UIAlertView alloc] initWithTitle:@"Outside supported area" message:@"Sorry, we only support specific areas on the map" delegate:self cancelButtonTitle:@"Ok, take me back" otherButtonTitles: nil];
-        [zoomedOutAlert setTag:0];
-        
-        [scnMapView setUserInteractionEnabled:NO];
-        [zoomedOutAlert show];
+       [scnMapView setUserInteractionEnabled:NO];
+        MKMapPoint userPoint = MKMapPointForCoordinate(self.scnMapView.centerCoordinate);
+        BOOL inside = MKMapRectContainsPoint(_scnCircle.boundingMapRect, userPoint);
+        if (inside){
+            MKMapCamera* camera = [MKMapCamera
+                                   cameraLookingAtCenterCoordinate:self.scnMapView.centerCoordinate
+                                   fromEyeCoordinate:self.scnMapView.centerCoordinate
+                                   eyeAltitude:maximumAltitude-300];
+            [self.scnMapView setCamera:camera animated:YES];
+            [self.scnMapView setUserInteractionEnabled:YES];
+        } else {
+            MKMapCamera* camera = [MKMapCamera
+                                   cameraLookingAtCenterCoordinate:CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)
+                                   fromEyeCoordinate:CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)
+                                   eyeAltitude:maximumAltitude-200];
+            [self.scnMapView setCamera:camera animated:YES];
+            [self.scnMapView setUserInteractionEnabled:YES];
+        }
+
     }
 }
 
@@ -1067,27 +1114,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 #pragma mark-  UIAlertViewDelegate
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 0){
-        if (buttonIndex == 0){
-            MKMapPoint userPoint = MKMapPointForCoordinate(self.scnMapView.centerCoordinate);
-            BOOL inside = MKMapRectContainsPoint(_scnCircle.boundingMapRect, userPoint);
-            if (inside){
-                MKMapCamera* camera = [MKMapCamera
-                                   cameraLookingAtCenterCoordinate:self.scnMapView.centerCoordinate
-                                   fromEyeCoordinate:self.scnMapView.centerCoordinate
-                                   eyeAltitude:maximumAltitude-300];
-                [self.scnMapView setCamera:camera animated:YES];
-                [self.scnMapView setUserInteractionEnabled:YES];
-            } else {
-                MKMapCamera* camera = [MKMapCamera
-                                       cameraLookingAtCenterCoordinate:CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)
-                                       fromEyeCoordinate:CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)
-                                       eyeAltitude:maximumAltitude-200];
-                [self.scnMapView setCamera:camera animated:YES];
-                [self.scnMapView setUserInteractionEnabled:YES];
-            }
-        }
-    }
     if (alertView.tag == 1){
         if  (buttonIndex == 0){
             [self loadAnnotations];

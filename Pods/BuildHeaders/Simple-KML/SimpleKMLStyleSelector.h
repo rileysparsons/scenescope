@@ -1,1 +1,0 @@
-../../Simple-KML/source/SimpleKMLStyleSelector.h

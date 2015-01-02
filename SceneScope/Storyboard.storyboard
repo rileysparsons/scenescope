@@ -355,7 +355,7 @@
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fl-lB-EYF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
-                                <color key="tintColor" patternImage="179754E9-5C6D-4DD9-B05C-9651BBDD6307" colorSpace="pattern"/>
+                                <color key="tintColor" patternImage="59684E24-ED9E-4370-ABF1-F2124DA6EBA4" colorSpace="pattern"/>
                             </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wcN-iw-GuJ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
@@ -764,7 +764,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="179754E9-5C6D-4DD9-B05C-9651BBDD6307" width="256" height="256">
+        <image name="59684E24-ED9E-4370-ABF1-F2124DA6EBA4" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
