@@ -112,7 +112,7 @@
     
     UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [rightButton setBackgroundImage:[UIImage imageNamed:@"telescopedisclosure.png"] forState:UIControlStateNormal];
-    rightButton.frame = CGRectMake(0, 0, 25, 25);
+    rightButton.frame = CGRectMake(0, 0, 30, 30);
     rightButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     rightButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [rightButton setImage:[UIImage imageNamed:@"disclosureButton"] forState:UIControlStateNormal];

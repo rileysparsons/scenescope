@@ -76,12 +76,6 @@
 {
     [super viewDidLoad];
     
-    int r = (int)(255.0 * 186.0/255.0f);
-    int g = (int)(255.0 * 233.0/255.0f);
-    int b = (int)(255.0 * 131.0/255.0f);
-    
-    NSLog(@"%@", [NSString stringWithFormat:@"%02x%02x%02x",r,g,b]);
-    
     self.scnCircle = [MKCircle circleWithCenterCoordinate:(CLLocationCoordinate2DMake(centerSantaClaraLat, centerSantaClaraLong)) radius:2414.02];
     self.navigationItem.title = @"Map";
     
@@ -513,7 +507,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 //-(void)adjustViewForActivity{
 //
 //    
-//    for (LocationAnnotation *annotation in [self.scnMapView annotations]){
+//    for (LocationAnnotation *annotation in _mapLocations){
 //        
 //        if ([annotation isKindOfClass:[LocationAnnotation class]]){
 //            
@@ -525,7 +519,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 //                    
 //                } else {
 //                    if (userObjects.count != [annotation.nearbyUsers count]){
-//                        annotation.nearbyUsers = userObjects;
+//                        [annotation.nearbyUsers addObjectsFromArray:userObjects];
 //                        NSLog(@"%@", annotation.nearbyUsers);
 //                        MKAnnotationView *annView = [scnMapView viewForAnnotation:annotation];
 //                        [self configureAnnotationView:annView];
@@ -537,7 +531,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
 //    }
 //        
 //}
-
+//
 -(void) adjustViewForActivity {
     for (LocationAnnotation *annotation in _mapLocations){
     
@@ -553,6 +547,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
                     if ([annotationLocation distanceFromLocation:userLocation] < 30) {
                         
                         [annotation.nearbyUsers addObject:userLocationAnnotation];
+                       
                         MKAnnotationView *annView = [scnMapView viewForAnnotation:annotation];
                         [self configureAnnotationView:annView];
                         NSLog(@"%@", annotation.nearbyUsers);
@@ -623,13 +618,25 @@ shouldReloadTableForSearchString:(NSString *)searchString
     }
     
     if ([annotation isKindOfClass:[LocationAnnotation class]]){
-        if (!locationAnnotationView){
-            locationAnnotationView = [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-            [self configureAnnotationView:locationAnnotationView];
+        if ([annotation.title isEqualToString:@"Bellomy"] || [annotation.title isEqualToString:@"Campus"] || [annotation.title isEqualToString:@"Dark Side"] ||
+            [annotation.title isEqualToString:@"Domicilio"] ||
+            [annotation.title isEqualToString:@"Villas"]){
+            if (!overlayAnnotationView){
+                overlayAnnotationView = [[OverlayAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:overlayAnnotationViewIdentifier];
+                overlayAnnotationView.canShowCallout = NO;
+            } else {
+                overlayAnnotationView.annotation = annotation;
+            }
+            return  overlayAnnotationView;
         } else {
-            locationAnnotationView.annotation = annotation;
+            if (!locationAnnotationView){
+                locationAnnotationView = [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+                    [self configureAnnotationView:locationAnnotationView];
+            } else {
+                locationAnnotationView.annotation = annotation;
+            }
+            return locationAnnotationView;
         }
-        return locationAnnotationView;
     }
     if ([annotation isKindOfClass:[UserLocationAnnotation class]]){
         if (!userAnnotationView){
@@ -637,6 +644,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
         } else {
             userAnnotationView.annotation = annotation;
         }
+        
         return userAnnotationView;
     }
     if ([annotation isKindOfClass:[OverlayAnnotationView class]]){
@@ -1078,16 +1086,14 @@ shouldReloadTableForSearchString:(NSString *)searchString
                         x = MKMapRectGetMidX([overlayPolygon boundingMapRect]);
                         y = MKMapRectGetMidY([overlayPolygon boundingMapRect]);
                     NSLog(@"%f, %f", x, y);
-                    NSMutableArray *annotationArray = [[NSMutableArray alloc] init];
                     
                     
                     
-                    /* FIX THIS!
-                    LocationAnnotation *centerAnnotation = [[LocationAnnotation alloc] initWithCoordinate: MKCoordinateForMapPoint(MKMapPointMake(x, y)) andTitle:feature.name andSubtitle:[@([annotationArray count]) stringValue] withInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"OverlayAnnotation", @"Category", nil]];
+                    
+                    LocationAnnotation *centerAnnotation = [[LocationAnnotation alloc] initWithCoordinate: MKCoordinateForMapPoint(MKMapPointMake(x, y)) andTitle:feature.name andSubtitle:nil andAffiliation:nil andType:0 andResidents:nil];
                     
                     [self.scnMapView addAnnotation:centerAnnotation];
                      
-                     */
                     // zoom the map to the polygon bounds
                     //
                 }
