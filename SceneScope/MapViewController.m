@@ -15,6 +15,7 @@
 #import "ExtraSetupViewController.h"
 #import "UserAnnotationView.h"
 #import "UserLocationAnnotation.h"
+#import "TopHousesTableViewController.h"
 #import "AppDelegate.h"
 #import "SimpleKML.h"
 #import "SimpleKMLContainer.h"
@@ -84,9 +85,6 @@
     self.scnMapView.delegate = self;
     [self.scnMapView setShowsPointsOfInterest:NO];
     
-    //Add Location Annotations to Map
-    [self loadAnnotations];
-    
     // Allocate and Initialize the search results array.
     self.searchResults = [[NSMutableArray alloc] init];
     self.locationSearchBar = [[UISearchBar alloc] init];
@@ -96,8 +94,6 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didInteractWithMap:)];
     [panRecognizer setDelegate:self];
     [self.scnMapView addGestureRecognizer:panRecognizer];
-    
-    [self setUpLocationServices];
     
     // This array holds all of the locations (houses not users) of the map
     _mapLocations = [[NSMutableArray alloc] init];
@@ -113,10 +109,12 @@
     if (authorizationStatus == kCLAuthorizationStatusAuthorizedAlways ||
         authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
         scnMapView.showsUserLocation = YES;
+        //Add Location Annotations to Map
+        [self loadAnnotations];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectResidence) name:@"DisplayResidencePrompt" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpLocationServices) name:@"LocationServicesApproved" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpLocationServices:) name:@"LocationServicesApproved" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationDidBecomeActiveNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserAnnotations) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
@@ -124,6 +122,14 @@
 -(void)startLocationManager {
     self.delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self.delegate mapViewControllerDidApproveLocationUpdates:self];
+    CLAuthorizationStatus authorizationStatus= [CLLocationManager authorizationStatus];
+    
+    if (authorizationStatus == kCLAuthorizationStatusAuthorizedAlways ||
+        authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        scnMapView.showsUserLocation = YES;
+        //Add Location Annotations to Map
+        [self loadAnnotations];
+    }
 }
 
 -(void) selectResidence {
@@ -299,35 +305,41 @@
     
     if (authorizationStatus == kCLAuthorizationStatusAuthorizedAlways ||
         authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
-    [self queryForUserAnnotationsNearLocation:_locationManager.location withNearbyDistance:_locationManager.location.horizontalAccuracy];
+        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] locationTracker] updateLocationToServer];
+        [self queryForUserAnnotationsNearLocation:_locationManager.location withNearbyDistance:_locationManager.location.horizontalAccuracy];
     }
     // Prompt Login if there is no user logged in. Otherwise update the locations.
 
 }
 
--(void)setUpLocationServices{
+-(void)setUpLocationServices:(NSNotification *)notification{
+    NSLog(@"Called");
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = 5;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     self.scnMapView.showsUserLocation = YES;
     [self.locationManager startUpdatingLocation];
+    [self loadAnnotations];
+    
 }
 
 -(void)loadAnnotations{
-
     [PFCloud callFunctionInBackground:@"fetchLocations" withParameters:@{} block:^(id object, NSError *error) {
         if (!error) {
             NSArray *objects = (NSArray *)object;
+            NSMutableArray *loadedAnnotations = [[NSMutableArray alloc] init];
             for (SSLocation *location in objects) {
                 if ((location.reviewed = YES)){
-                LocationAnnotation *geoPointAnnotation = [[LocationAnnotation alloc] initWithSSLocation:location];
-                MKAnnotationView *annView = [scnMapView viewForAnnotation:geoPointAnnotation];
-                [self configureAnnotationView:annView];
-                [_mapLocations addObject:geoPointAnnotation];
-                [self.scnMapView addAnnotations:_mapLocations];
+                    LocationAnnotation *geoPointAnnotation = [[LocationAnnotation alloc] initWithSSLocation:location];
+                    MKAnnotationView *annView = [scnMapView viewForAnnotation:geoPointAnnotation];
+                    [self configureAnnotationView:annView];
+                    [loadedAnnotations addObject:geoPointAnnotation];
                 }
             }
+            _mapLocations = loadedAnnotations;
+            [self.scnMapView addAnnotations:_mapLocations];
+            [self queryForUserAnnotationsNearLocation:_locationManager.location withNearbyDistance:_locationManager.location.horizontalAccuracy];
         } else if(error){
             UIAlertView *loadingErrorAlert = [[UIAlertView alloc] initWithTitle:@"Connection Error" message:@"Unable to load map, please connect to network and try again" delegate:self cancelButtonTitle:@"Reload" otherButtonTitles: nil];
             [loadingErrorAlert setTag:1];
@@ -489,11 +501,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
                 if ([annotationSelect isKindOfClass:[LocationAnnotation class]]){
                         if ([annotationSelect.title isEqualToString:locationCell.locationLabel.text]){
                             MKMapCamera* camera = [MKMapCamera cameraLookingAtCenterCoordinate:annotationSelect.coordinate fromEyeCoordinate:annotationSelect.coordinate eyeAltitude:0];
-                            MKAnnotationView *view = [self.scnMapView viewForAnnotation:annotationSelect];
-                            view.enabled = YES;
-                            view.hidden = NO;
                             [self.scnMapView selectAnnotation:annotationSelect animated:NO];
-                            [self.scnMapView setCamera:camera animated:NO];
+                            [self.scnMapView setCamera:camera animated:YES];
                             [self.scnMapView setUserInteractionEnabled:YES];
                         }
                 }
@@ -534,10 +543,9 @@ shouldReloadTableForSearchString:(NSString *)searchString
 //
 -(void) adjustViewForActivity {
     for (LocationAnnotation *annotation in _mapLocations){
-    
-        
+        NSMutableArray *nearbyUsersLoaded = [[NSMutableArray alloc] init];
         if ([annotation isKindOfClass:[LocationAnnotation class]]){
-            annotation.nearbyUsers = nil;
+//            annotation.nearbyUsers = nil;
             for (UserLocationAnnotation *userLocationAnnotation in _allUserAnnotations){
                 
                 if ([userLocationAnnotation isKindOfClass:[UserLocationAnnotation class]]){
@@ -546,13 +554,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
                    
                     if ([annotationLocation distanceFromLocation:userLocation] < 30) {
                         
-                        [annotation.nearbyUsers addObject:userLocationAnnotation];
-                       
+                        [nearbyUsersLoaded addObject:nearbyUsersLoaded];
                         MKAnnotationView *annView = [scnMapView viewForAnnotation:annotation];
                         [self configureAnnotationView:annView];
-                        NSLog(@"%@", annotation.nearbyUsers);
                     }
                 }
+                annotation.nearbyUsers = nearbyUsersLoaded;
             }
         }
     }
@@ -624,6 +631,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
             if (!overlayAnnotationView){
                 overlayAnnotationView = [[OverlayAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:overlayAnnotationViewIdentifier];
                 overlayAnnotationView.canShowCallout = NO;
+                overlayAnnotationView.userInteractionEnabled = NO;
             } else {
                 overlayAnnotationView.annotation = annotation;
             }
@@ -641,6 +649,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
     if ([annotation isKindOfClass:[UserLocationAnnotation class]]){
         if (!userAnnotationView){
             userAnnotationView = [[UserAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:userAnnotationViewIdentifier];
+            userAnnotationView.userInteractionEnabled = NO;
         } else {
             userAnnotationView.annotation = annotation;
         }
@@ -719,6 +728,10 @@ shouldReloadTableForSearchString:(NSString *)searchString
             UIImage *image = snapshot.image;
             detailViewController.locationImageView.image = image;
         }];
+    } else if ([segue.identifier isEqualToString:@"TopHouses"]){
+        UINavigationController *destination = (UINavigationController *)[segue destinationViewController];
+        TopHousesTableViewController *topHousesViewController = [[destination viewControllers] objectAtIndex:0];
+        [topHousesViewController setMapLocations:self.mapLocations];
     }
 }
 
@@ -921,8 +934,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
     for (int i=0; i<[views count]; i++)
     {
         MKAnnotationView *annotationView = [views objectAtIndex:i];
-        LocationAnnotation *annotationForView = (LocationAnnotation *)annotationView.annotation;
-        if( [annotationView isKindOfClass:[AnnotationView class]]){
+        if([annotationView isKindOfClass:[AnnotationView class]]){
             
             [UIView animateWithDuration:0.65f
                                   delay:0.0f
@@ -938,14 +950,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
             
         }
         
-        if ([annotationForView isKindOfClass:[UserAnnotationView class]] || [annotationForView isKindOfClass:[MKUserLocation class]]){
+        if ([annotationView.annotation isKindOfClass:[UserLocationAnnotation class]]){
             [[annotationView superview] sendSubviewToBack:annotationView];
-        } else if ([annotationForView isKindOfClass:[AnnotationView class]]){
-            [[annotationView superview] bringSubviewToFront:annotationView];
         }
     
     }
-
 }
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
@@ -1130,5 +1139,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
 -(void)dealloc {
     scnMapView.delegate = nil;
 }
+
 
 @end

@@ -31,6 +31,7 @@ subtitle = _subtitle, residents = _residents, type = _type, affiliation = _affil
         _residents = residents;
         _type = type;
         _affiliation = affiliation;
+        
     }
     
 	return self;
@@ -43,6 +44,9 @@ subtitle = _subtitle, residents = _residents, type = _type, affiliation = _affil
 -(NSMutableArray*)nearbyUsers{
     if (!_nearbyUsers)
     _nearbyUsers = [[NSMutableArray alloc] init];
+
+    _nearbyUsersCount = _nearbyUsers.count;
+    
     return _nearbyUsers;
 }
 

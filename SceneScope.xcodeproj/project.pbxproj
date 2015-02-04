@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0C1265DB1A0E94B100A9E23C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1265DA1A0E94B100A9E23C /* MapKit.framework */; };
+		1406F90D1A5879EF001EC44D /* TopHousesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1406F90C1A5879EF001EC44D /* TopHousesTableViewController.m */; };
 		1415FD8F1A5111F7006E99A6 /* NewLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415FD8E1A5111F7006E99A6 /* NewLoginViewController.m */; };
+		14383B231A8087370040FBDF /* todo in Resources */ = {isa = PBXBuildFile; fileRef = 14383B221A8087370040FBDF /* todo */; };
 		14BF776A1A571F6000720661 /* UIColor+SceneScopeColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BF77691A571F6000720661 /* UIColor+SceneScopeColor.m */; };
 		C201B53F19FB0EB9006CE23B /* SSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C201B53E19FB0EB9006CE23B /* SSUser.m */; };
 		F10AF5DD1A09AB6400B8900B /* greenUserAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = F10AF5DB1A09AB6400B8900B /* greenUserAnnotation.png */; };
 		F10AF5DE1A09AB6400B8900B /* greenUserAnnotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F10AF5DC1A09AB6400B8900B /* greenUserAnnotation@2x.png */; };
 		F10FB1D2199051A400856789 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F10FB1D1199051A400856789 /* DetailViewController.m */; };
-		F11D5715198B2E5B00A4CDFA /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F11D5714198B2E5B00A4CDFA /* StartViewController.m */; };
 		F11D5718198C5DC500A4CDFA /* LogInWithFacebookButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F11D5716198C5DC500A4CDFA /* LogInWithFacebookButton@2x.png */; };
 		F11D5719198C5DC500A4CDFA /* LogInWithFacebookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F11D5717198C5DC500A4CDFA /* LogInWithFacebookButton.png */; };
 		F12A5789190C79F400FC9A70 /* defaultPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F12A5788190C79F400FC9A70 /* defaultPin@2x.png */; };
@@ -102,7 +103,6 @@
 		F1ED0B6819A716A5005B1E19 /* yellowUserAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = F1ED0B6419A716A5005B1E19 /* yellowUserAnnotation.png */; };
 		F1ED0B6919A716A5005B1E19 /* yellowUserAnnotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1ED0B6519A716A5005B1E19 /* yellowUserAnnotation@2x.png */; };
 		F1F6C3261984478300AC8512 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F1F6C3251984478300AC8512 /* Podfile */; };
-		F1F6C32919844D2600AC8512 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6C32819844D2600AC8512 /* LoginViewController.m */; };
 		F415AFF1DF58425B9EC9C8F9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B527CC387AA4E6891C4053F /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -118,8 +118,11 @@
 
 /* Begin PBXFileReference section */
 		0C1265DA1A0E94B100A9E23C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1406F90B1A5879EF001EC44D /* TopHousesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopHousesTableViewController.h; sourceTree = "<group>"; };
+		1406F90C1A5879EF001EC44D /* TopHousesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopHousesTableViewController.m; sourceTree = "<group>"; };
 		1415FD8D1A5111F7006E99A6 /* NewLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewLoginViewController.h; sourceTree = "<group>"; };
 		1415FD8E1A5111F7006E99A6 /* NewLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewLoginViewController.m; sourceTree = "<group>"; };
+		14383B221A8087370040FBDF /* todo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = todo; sourceTree = "<group>"; };
 		14BF77681A571F6000720661 /* UIColor+SceneScopeColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+SceneScopeColor.h"; path = "../UIColor+SceneScopeColor.h"; sourceTree = "<group>"; };
 		14BF77691A571F6000720661 /* UIColor+SceneScopeColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SceneScopeColor.m"; path = "../UIColor+SceneScopeColor.m"; sourceTree = "<group>"; };
 		42DAD92BA4A21D560363D73E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -131,8 +134,6 @@
 		F10AF5DC1A09AB6400B8900B /* greenUserAnnotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenUserAnnotation@2x.png"; sourceTree = "<group>"; };
 		F10FB1D0199051A400856789 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = ../DetailViewController.h; sourceTree = "<group>"; };
 		F10FB1D1199051A400856789 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = ../DetailViewController.m; sourceTree = "<group>"; };
-		F11D5713198B2E5A00A4CDFA /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
-		F11D5714198B2E5B00A4CDFA /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		F11D5716198C5DC500A4CDFA /* LogInWithFacebookButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LogInWithFacebookButton@2x.png"; sourceTree = "<group>"; };
 		F11D5717198C5DC500A4CDFA /* LogInWithFacebookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogInWithFacebookButton.png; sourceTree = "<group>"; };
 		F12A5788190C79F400FC9A70 /* defaultPin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defaultPin@2x.png"; sourceTree = "<group>"; };
@@ -239,8 +240,6 @@
 		F1ED0B6419A716A5005B1E19 /* yellowUserAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowUserAnnotation.png; sourceTree = "<group>"; };
 		F1ED0B6519A716A5005B1E19 /* yellowUserAnnotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowUserAnnotation@2x.png"; sourceTree = "<group>"; };
 		F1F6C3251984478300AC8512 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		F1F6C32719844D2600AC8512 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		F1F6C32819844D2600AC8512 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,6 +360,7 @@
 		F18C49E818EE64AA00120197 /* SceneScope */ = {
 			isa = PBXGroup;
 			children = (
+				14383B221A8087370040FBDF /* todo */,
 				F1F6C3251984478300AC8512 /* Podfile */,
 				F18C4A4218EE66E200120197 /* AppDelegate.h */,
 				F18C4A4318EE66E200120197 /* AppDelegate.m */,
@@ -440,12 +440,10 @@
 				F18C4A2118EE662700120197 /* MapViewController.m */,
 				F15D1D94195FCC3C007448E4 /* MoreTableViewController.h */,
 				F15D1D95195FCC3C007448E4 /* MoreTableViewController.m */,
-				F1F6C32719844D2600AC8512 /* LoginViewController.h */,
 				1415FD8D1A5111F7006E99A6 /* NewLoginViewController.h */,
 				1415FD8E1A5111F7006E99A6 /* NewLoginViewController.m */,
-				F1F6C32819844D2600AC8512 /* LoginViewController.m */,
-				F11D5713198B2E5A00A4CDFA /* StartViewController.h */,
-				F11D5714198B2E5B00A4CDFA /* StartViewController.m */,
+				1406F90B1A5879EF001EC44D /* TopHousesTableViewController.h */,
+				1406F90C1A5879EF001EC44D /* TopHousesTableViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -648,6 +646,7 @@
 				F1694567198C99D100DD1A49 /* page3.png in Resources */,
 				F1ED0B5D19A544DD005B1E19 /* zoomUserLocation@2x.png in Resources */,
 				F1B9C33619B9258F00AF2DC8 /* housePinLevel3@2x.png in Resources */,
+				14383B231A8087370040FBDF /* todo in Resources */,
 				F1A962C319A80C5600557C66 /* openingImageSmall.png in Resources */,
 				F1B9C33B19B9258F00AF2DC8 /* housePinLevel6.png in Resources */,
 				F1B9C33419B9258F00AF2DC8 /* housePinLevel2@2x.png in Resources */,
@@ -721,7 +720,6 @@
 				F1973B121A15C0DE0071C3F9 /* LocationShareModel.m in Sources */,
 				F18C4A1A18EE661600120197 /* LocationCell.m in Sources */,
 				F18C775919D748F900357FC1 /* SSLocation.m in Sources */,
-				F1F6C32919844D2600AC8512 /* LoginViewController.m in Sources */,
 				F18C4A2818EE662700120197 /* LocationAnnotation.m in Sources */,
 				F18C49EF18EE64AA00120197 /* main.m in Sources */,
 				F18C4A2918EE662700120197 /* AnnotationView.m in Sources */,
@@ -729,7 +727,7 @@
 				F161A34319252103007C2B6A /* OverlayAnnotationView.m in Sources */,
 				F12D344A199C233500892E99 /* UserAnnotationView.m in Sources */,
 				F1B002B719FCE37A00054A21 /* UserLocationAnnotation.m in Sources */,
-				F11D5715198B2E5B00A4CDFA /* StartViewController.m in Sources */,
+				1406F90D1A5879EF001EC44D /* TopHousesTableViewController.m in Sources */,
 				F15D1D96195FCC3C007448E4 /* MoreTableViewController.m in Sources */,
 				F18C4A2718EE662700120197 /* MapViewController.m in Sources */,
 				F1973B101A15C0DE0071C3F9 /* LocationTracker.m in Sources */,

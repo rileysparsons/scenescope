@@ -28,13 +28,17 @@
 
 @property (nonatomic) NSInteger type;
 
+@property (nonatomic) NSInteger nearbyUsersCount;
+
+@property NSMutableArray *nearbyUsersOvertime;
+
 
 -(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate
                 andTitle:(NSString*)title andSubtitle:(NSString *)subtitle andAffiliation:(NSString *)affiliation andType:(NSInteger)type andResidents:(NSArray *)residents;
 
 - (id)initWithSSLocation:(SSLocation *)aLocation;
 
-
+- (NSInteger)nearbyUsersCount;
 
 
 @end
