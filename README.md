@@ -7,5 +7,8 @@ SceneScope was my entree into software development back in the summer of 2013. I
 ## Images and Videos
 
 <p align='center'>
+  <img src='https://github.com/rileysparsons/scenescope/blob/master/scenescope%20video%202.gif' width=200/>
+</p>
+<p align='center'>
   <img src='https://github.com/rileysparsons/scenescope/blob/master/Simulator%20Screen%20Shot%20Oct%2031%2C%202016%2C%208.57.28%20PM.png' width=200/> <img src='https://github.com/rileysparsons/scenescope/blob/master/Simulator%20Screen%20Shot%20Oct%2031%2C%202016%2C%208.58.31%20PM.png' width=200/> <img src='https://github.com/rileysparsons/scenescope/blob/master/Simulator%20Screen%20Shot%20Oct%2031%2C%202016%2C%208.58.13%20PM.png' width=200/> 
 </p>
