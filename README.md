@@ -4,6 +4,8 @@ SceneScope
 ## Summary
 SceneScope was my entrée into software development back in the summer of 2013. I had the goal of developing an iPhone application that would allow my fellow students at Santa Clara University in Santa Clara, CA to navigate on and off campus. Although at first it was simply released as a static map of popular locations on and nearby campus, it was built up to include the approximate location of other users on the map. This allowed students to see where their peers were congregating at any point in time.
 
+The app was a moderate success for me as my first iOS project; About 400 Santa Clara students signed up and were using the app at its peak in 2014.I
+
 ## Images and Videos
 
 <p align='center'>
